@@ -1,0 +1,114 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Mona Sans';
+  src:
+    local('Mona Sans'),
+    /* url('./assets/fonts/Mona-Sans.ttf') format('truetype'); */
+      url('/Mona-Sans.ttf') format('truetype');
+}
+
+.primaryHeadings {
+  @apply text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-medium;
+}
+.primaryLabels {
+  @apply text-xs sm:text-sm md:text-base font-medium;
+}
+
+@media print {
+  .print-table-header {
+    display: table-header-group;
+  }
+}
+
+/* Hide increment and decrement controls for number input fields */
+/* input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+} */
+
+/* Add this in your CSS */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+/* Success toast styles */
+.Toastify__toast--success {
+  background-color: #4caf50; /* Change to your desired color */
+  font-size: 16px; /* Change to your desired font size */
+}
+
+/* Error toast styles */
+.Toastify__toast--error {
+  background-color: #d32f2f; /* Change to your desired color */
+  font-size: 16px; /* Change to your desired font size */
+}
+.Toastify__toast--warning {
+  background-color: #f9a825; /* Change to your desired color */
+  font-size: 16px; /* Change to your desired font size */
+}
+
+/* Body class to apply styles globally to all toasts */
+.toastBody {
+  font-family: 'Mona Sans', sans-serif; /* Change font family if needed */
+}
+
+.custom-tooltip {
+  z-index: 1000 !important;
+}
+
+.requiredRanksTooltip {
+  display: flex;
+  flex-direction: column;
+  /* gap: 8px; */
+  text-align: left;
+  z-index: 1000 !important;
+
+  /* max-width: 1000px; */
+}
+
+.datePickerFont .react-datepicker {
+  font-family: 'Mona Sans', sans-serif;
+}
+
+/* Newly added responsive fonts @22.05.25 */
+/* .text-responsive-button {
+  @apply text-sm 2xl:text-base;
+}
+
+.text-responsive-breadcrumb {
+  @apply text-xs 2xl:text-sm;
+}
+
+.text-responsive-message {
+  @apply text-sm 2xl:text-base;
+}
+
+.text-responsive-label {
+  @apply text-xs 2xl:text-sm;
+}
+
+.text-responsive-input {
+  @apply text-sm 2xl:text-base;
+}
+
+.text-responsive-table {
+  @apply text-sm 2xl:text-base;
+}
+
+.text-responsive-aside-menu {
+  @apply text-base 2xl:text-lg;
+} */

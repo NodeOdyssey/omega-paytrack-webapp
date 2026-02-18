@@ -1,0 +1,269 @@
+.primaryHeadings {
+  @apply text-xs md:text-sm lg:text-base xl:text-lg font-medium;
+}
+.primaryHeadings2 {
+  @apply text-xs md:text-sm lg:text-base   font-bold;
+}
+.primaryLabels {
+  @apply text-xs sm:text-sm lg:text-base font-medium;
+}
+/* .reportPrimaryHeadings {
+  @apply text-xs md:text-sm lg:text-base xl:text-lg font-medium;
+} */
+
+.reportPrimaryHeadings2 {
+  @apply text-base font-bold;
+  /* @apply text-[0.8rem] font-bold; */
+}
+
+.reportPrimaryLabels {
+  @apply text-xs sm:text-sm xl:text-base font-medium;
+}
+.reportPrimaryLabels2 {
+  @apply text-xs sm:text-sm font-medium;
+}
+
+/* #root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+} */
+
+.text-responsive-button {
+  @apply text-sm 2xl:text-base;
+}
+
+.text-responsive-breadcrumb {
+  @apply text-xs 2xl:text-sm;
+}
+
+.text-responsive-message {
+  @apply text-sm 2xl:text-base;
+}
+
+.text-responsive-label {
+  @apply text-xs 2xl:text-sm;
+}
+
+.text-responsive-input {
+  @apply text-sm 2xl:text-base;
+}
+
+.text-responsive-table {
+  @apply text-sm 2xl:text-base;
+}
+
+.text-responsive-aside-menu {
+  @apply text-base 2xl:text-lg;
+}
+
+/* For screens that have form and header contains back button */
+.padding-responsive-header-container-type-1 {
+  @apply py-2 2xl:py-3 pl-4 2xl:pl-8 pr-6 2xl:pr-10 gap-1 2xl:gap-2;
+}
+
+/* For screens that have a table and header contains search bar */
+.padding-responsive-header-container-type-2 {
+  @apply py-2 2xl:py-3 px-4 2xl:px-8 gap-1 2xl:gap-2;
+}
+.padding-responsive-header-container-type-3 {
+  @apply px-4 2xl:px-8 gap-1 2xl:gap-2;
+}
+
+.icon-responsive-button {
+  @apply w-4 2xl:w-5 h-4 2xl:h-5;
+}
+
+.padding-y-responsive-table-header {
+  @apply py-1 2xl:py-2;
+}
+
+.padding-x-responsive-table {
+  @apply px-2 2xl:px-4;
+}
+
+.action-modal-responsive-icon {
+  @apply w-3 h-3 lg:w-4 lg:h-4;
+}
+
+.table-responsive-row-height {
+  @apply h-10 2xl:h-12;
+}
+
+.table-td-existing-data-overflow {
+  @apply overflow-hidden text-ellipsis whitespace-nowrap;
+}
+
+.table-header {
+  @apply padding-x-responsive-table padding-y-responsive-table-header border border-tableBorder text-responsive-table;
+  /* @apply padding-x-responsive-table padding-y-responsive-table-header text-responsive-table border border-gray-300;  */ /* border-t border-[#80858a] */
+}
+
+.table-td-existing-data {
+  /* @apply padding-x-responsive-table border border-tableBorder text-responsive-table; */
+  @apply padding-x-responsive-table text-responsive-table border border-gray-300;
+  /* @apply padding-x-responsive-table text-responsive-table; */
+}
+
+.table-body-row {
+  @apply hover:bg-gray-200 border border-tableBorder font-medium h-10 2xl:h-12;
+}
+
+.table-container {
+  @apply relative overflow-y-auto flex text-center border border-opacity-40 max-h-[calc(100vh-200px)] 2xl:max-h-[calc(100vh-250px)] scrollbar scrollbar-thumb-scrollBarColor scrollbar-track-scrollBarBg;
+}
+
+/* Action Kebab Menu Item */
+.action-menu-button {
+  @apply flex gap-2 items-center justify-start w-full px-2.5 2xl:px-4 py-1.5 primaryLabels text-secondaryText hover:bg-smallMenuHover;
+}
+
+.action-kebab-icon {
+  @apply w-4 h-4 lg:w-5 lg:h-5 xl:w-6 xl:h-6;
+}
+
+.table-action-menu-container {
+  @apply absolute top-10 2xl:top-12 right-2 2xl:right-4 w-40 2xl:w-48 bg-white border border-gray-300 shadow-lg z-30;
+}
+
+.table-outside-action-icon {
+  @apply w-5 h-5 2xl:w-6 2xl:h-6;
+}
+
+.table-action-icon {
+  @apply w-4 h-4 2xl:w-5 2xl:h-5;
+}
+.dropdown-menu-icon {
+  @apply table-action-icon;
+}
+
+.upload-doc-icon {
+  @apply table-outside-action-icon;
+}
+.dropdown-select-container {
+  @apply relative w-60 2xl:w-80 font-Mona_Sans h-8 2xl:h-10;
+}
+
+.dropdown-select-button {
+  /* @apply flex items-center justify-between w-full h-full px-2 2xl:px-4 border bg-white border-gray-300 rounded-md text-responsive-input; */
+  @apply flex items-center justify-between w-full h-full pl-2 2xl:pl-3 pr-1 2xl:pr-2 border bg-white border-gray-300 rounded-md text-responsive-input;
+}
+
+.dropdown-select-span {
+  @apply text-gray-700 font-medium overflow-hidden;
+}
+
+.dropdown-search-input {
+  @apply w-full h-8 2xl:h-10 pl-7 2xl:pl-8 pb-0.5 2xl:pb-[1px] bg-transparent focus:outline-offset-1 focus:outline-1 focus:outline-inputBorder border border-smallMenuHover rounded-md text-responsive-input;
+}
+
+.dropdown-dropped-container {
+  @apply absolute mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg z-30 px-2 2xl:px-3 py-2 2xl:py-3 space-y-1;
+}
+
+.dropdown-search-icon {
+  @apply absolute top-1/2 -translate-y-1/2 left-2 icon-responsive-button;
+}
+
+.dropdown-list-item {
+  @apply py-1.5 hover:bg-gray-100 cursor-pointer font-medium text-responsive-input px-2 table-td-existing-data-overflow;
+}
+
+.report-action-buttons-container {
+  @apply flex items-center justify-between gap-2 2xl:gap-3;
+}
+
+.report-action-icon {
+  @apply w-5 h-5 2xl:w-6 2xl:h-6 cursor-pointer translate-y-0.5;
+}
+
+.back-button-icon {
+  @apply w-4 2xl:w-5;
+}
+
+.input-field {
+  @apply px-2 w-full h-10 2xl:h-12 border border-inputBorder rounded-md shadow-sm text-responsive-input;
+}
+
+.input-error {
+  @apply text-red-500 text-responsive-label;
+}
+
+.input-label {
+  @apply font-medium text-secondaryText text-responsive-label;
+}
+
+.input-wrapper {
+  @apply flex flex-col w-1/3 gap-1 2xl:gap-2;
+}
+
+.emp-posting-table-th {
+  @apply padding-x-responsive-table border border-tableBorder text-responsive-table;
+}
+
+.emp-posting-table-td {
+  @apply p-2 h-10 text-responsive-table border border-tableBorder;
+}
+
+.post-required-rank-table-td {
+  @apply px-1 py-1 h-8 text-responsive-table border border-tableBorder;
+}
+
+.table-td-with-input {
+  @apply px-2 py-1.5 text-responsive-table border border-tableBorder;
+}
+
+/* DRY - Don't Repeat Yourself */
+/* px-1 py-1 2xl:px-2 2xl:py-2 h-10 text-responsive-table border border-tableBorder */
+
+.modal-overlay {
+  @apply fixed inset-0 bg-gray-400 bg-opacity-30 flex justify-center items-center z-40;
+}
+
+.attendance-table-td {
+  @apply text-responsive-table border border-tableBorder table-padding;
+}
+
+.table-padding {
+  @apply px-2 2xl:px-4 py-1.5 2xl:py-2;
+}
+.reports-from-to {
+  @apply text-sm font-bold;
+}

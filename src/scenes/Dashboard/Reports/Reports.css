@@ -1,0 +1,48 @@
+.report-table-header {
+  @apply border-2 border-primaryText text-xs;
+}
+.report-table-cell {
+  @apply border-b border-dotted border-primaryText text-xs font-medium;
+}
+.report-cell-inner {
+  @apply flex justify-between space-x-2;
+}
+.report-table-row {
+  @apply font-semibold text-xs;
+}
+
+@media print {
+  thead {
+    display: table-header-group;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  tbody tr {
+    page-break-inside: avoid;
+  }
+
+  td {
+    white-space: nowrap;
+  }
+
+  .report-footer {
+    page-break-inside: avoid;
+  }
+
+  .total-row {
+    page-break-before: always;
+  }
+  @page {
+    size: auto;
+    margin: 5mm 5mm 15mm 5mm;
+  }
+}
+
+/* @media print {
+  thead { display: table-header-group !important; }
+  tfoot { display: table-footer-group !important; }
+  .overflow-x-auto { overflow-x: unset !important; }
+} */

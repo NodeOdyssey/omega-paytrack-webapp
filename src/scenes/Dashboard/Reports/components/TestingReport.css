@@ -1,0 +1,10 @@
+@media print {
+  .avoid-break {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .test {
+    background-color: black;
+    /* color: white; */
+  }
+}

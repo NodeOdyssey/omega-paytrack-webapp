@@ -1,0 +1,29 @@
+@media print {
+  thead {
+    display: table-header-group;
+  }
+  table {
+    /* table-layout: fixed; */
+    width: 100%;
+  }
+
+  tbody tr {
+    page-break-inside: avoid;
+  }
+
+  td {
+    white-space: nowrap;
+  }
+
+  .report-footer {
+    page-break-inside: avoid;
+  }
+
+  .total-row {
+    page-break-before: always;
+  }
+  @page {
+    size: auto;
+    margin: 5mm 5mm 20mm 5mm;
+  }
+}
