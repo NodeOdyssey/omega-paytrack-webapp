@@ -389,6 +389,10 @@ const EmployeesTable2: React.FC<EmployeesTableProps> = ({
   const [recordAdvanceDate, setRecordAdvanceDate] = useState<Date | null>(
     new Date()
   );
+  const [isPayrollGeneratedForCurrentMonth, setIsPayrollGeneratedForCurrentMonth] =
+    useState<boolean>(false);
+  const [advancePayrollStatusMessage, setAdvancePayrollStatusMessage] =
+    useState<string>('');
 
   const currentMonthStartDate = new Date(
     new Date().getFullYear(),
@@ -464,6 +468,13 @@ const EmployeesTable2: React.FC<EmployeesTableProps> = ({
   const handleRecordAdvance = async () => {
     if (!accessToken) return;
 
+    if (isPayrollGeneratedForCurrentMonth) {
+      toast.warning(
+        'Payroll has already been generated for the current month. Please record salary advance directly in payroll.'
+      );
+      return;
+    }
+
     if (!actionEmployeeId) {
       toast.error('Employee ID is missing. Please try again.');
       return;
@@ -512,6 +523,49 @@ const EmployeesTable2: React.FC<EmployeesTableProps> = ({
       }
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const openRecordAdvanceModal = async (employeeId: number) => {
+    setRecordAdvanceAmount('');
+    setRecordAdvanceDate(new Date());
+    setIsPayrollGeneratedForCurrentMonth(false);
+    setAdvancePayrollStatusMessage('');
+
+    if (!accessToken || !employeeId) {
+      setShowRecordAdvanceModal(true);
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const response = await axios.get(
+        `${api.baseUrl}/payrolls/advance-status/${employeeId}`,
+        {
+          headers: { 'x-access-token': accessToken },
+        }
+      );
+
+      if (response.data?.success) {
+        setIsPayrollGeneratedForCurrentMonth(
+          Boolean(response.data.payrollGenerated)
+        );
+        setAdvancePayrollStatusMessage(response.data.message || '');
+      }
+    } catch (error) {
+      if (error instanceof AxiosError && error.response) {
+        toast.error(error.response.data.message);
+        handleAxiosError(error);
+      } else if (error instanceof Yup.ValidationError) {
+        handleYupError(error);
+      } else {
+        toast.error('Unable to verify payroll status at the moment.');
+      }
+      setIsPayrollGeneratedForCurrentMonth(false);
+      setAdvancePayrollStatusMessage('');
+    } finally {
+      setIsLoading(false);
+      setShowRecordAdvanceModal(true);
     }
   };
 
@@ -866,9 +920,7 @@ const EmployeesTable2: React.FC<EmployeesTableProps> = ({
             <button
               onClick={() => {
                 setActionModalIndex(null);
-                setRecordAdvanceAmount('');
-                setRecordAdvanceDate(new Date());
-                setShowRecordAdvanceModal(true);
+                openRecordAdvanceModal(actionEmployeeId);
               }}
               className={`action-menu-button ${
                 actionEmployeeName === ''
@@ -960,6 +1012,13 @@ const EmployeesTable2: React.FC<EmployeesTableProps> = ({
                 Record Salary Advance for {actionEmployeeName}
               </h2>
 
+              {isPayrollGeneratedForCurrentMonth && (
+                <div className="mt-3 rounded-md border border-[#f4cf74] bg-[#fff7de] px-3 py-2 text-sm text-[#8a5a00]">
+                  {advancePayrollStatusMessage ||
+                    'Payroll has already been generated for the current month. Please record salary advance directly to payroll.'}
+                </div>
+              )}
+
               <div className="mt-4 rounded-md border border-inputBorder bg-tableHeadingColour p-3 2xl:p-4">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3 2xl:gap-4 text-sm 2xl:text-base">
                   <div>
@@ -1015,6 +1074,7 @@ const EmployeesTable2: React.FC<EmployeesTableProps> = ({
                     type="number"
                     min={0}
                     step="0.01"
+                    disabled={isPayrollGeneratedForCurrentMonth}
                     value={recordAdvanceAmount}
                     onChange={(e) => setRecordAdvanceAmount(e.target.value)}
                     className="h-10 2xl:h-11 rounded-md border border-inputBorder px-3 text-sm focus:outline-none focus:ring-1 focus:ring-bgPrimaryButton"
@@ -1029,6 +1089,7 @@ const EmployeesTable2: React.FC<EmployeesTableProps> = ({
                   <DatePickerComp
                     className="w-full h-full 2xl:h-full 2xl:w-full"
                     label="Select Date"
+                    disabled={isPayrollGeneratedForCurrentMonth}
                     pickerMode="date"
                     minDate={currentMonthStartDate}
                     maxDate={currentMonthEndDate}
@@ -1044,6 +1105,8 @@ const EmployeesTable2: React.FC<EmployeesTableProps> = ({
                     setShowRecordAdvanceModal(false);
                     setRecordAdvanceAmount('');
                     setRecordAdvanceDate(new Date());
+                    setIsPayrollGeneratedForCurrentMonth(false);
+                    setAdvancePayrollStatusMessage('');
                   }}
                   className="h-10 px-4 rounded-md border border-inputBorder text-secondaryText font-medium hover:bg-gray-100"
                 >
@@ -1051,7 +1114,12 @@ const EmployeesTable2: React.FC<EmployeesTableProps> = ({
                 </button>
                 <button
                   onClick={handleRecordAdvance}
-                  className="h-10 px-4 rounded-md bg-bgPrimaryButton text-white font-medium hover:bg-bgPrimaryButtonHover"
+                  disabled={isPayrollGeneratedForCurrentMonth}
+                  className={`h-10 px-4 rounded-md text-white font-medium ${
+                    isPayrollGeneratedForCurrentMonth
+                      ? 'bg-gray-400 cursor-not-allowed'
+                      : 'bg-bgPrimaryButton hover:bg-bgPrimaryButtonHover'
+                  }`}
                 >
                   Save
                 </button>
