@@ -11,19 +11,27 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { Keyboard_Arrow_Down, Keyboard_Arrow_Up } from '../../assets/icons';
 
 type CustomDatePickerProps = {
+  className?: string;
   label: string;
   onChangeDate: (date: Date) => void;
   disabled?: boolean;
   reset?: boolean;
   externalSelectedDate?: Date | null;
+  pickerMode?: 'monthYear' | 'date';
+  minDate?: Date;
+  maxDate?: Date;
 };
 
 const DatePickerComp: React.FC<CustomDatePickerProps> = ({
+  className = '',
   label,
   onChangeDate,
   disabled = false,
   reset,
   externalSelectedDate,
+  pickerMode = 'monthYear',
+  minDate,
+  maxDate,
 }) => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
@@ -75,7 +83,8 @@ const DatePickerComp: React.FC<CustomDatePickerProps> = ({
     <>
       <div
         // className="relative w-52 md:w-40 lg:w-52 xl:w-64 h-8 2xl:h-10"
-        className="relative w-[238px] 2xl:w-64 h-8 2xl:h-10"
+        // className="relative w-[238px] 2xl:w-64 h-8 2xl:h-10"
+        className={`relative w-[238px] 2xl:w-64 h-8 2xl:h-10 ${className}`}
         ref={calendarRef}
       >
         {/* Button to toggle the calendar */}
@@ -87,12 +96,14 @@ const DatePickerComp: React.FC<CustomDatePickerProps> = ({
         >
           <span className="font-medium text-gray-700">
             {selectedDate
-              ? selectedDate
-                  .toLocaleDateString('en-US', {
-                    month: 'long',
-                    year: 'numeric',
-                  })
-                  .replace(' ', ', ')
+              ? pickerMode === 'monthYear'
+                ? selectedDate
+                    .toLocaleDateString('en-US', {
+                      month: 'long',
+                      year: 'numeric',
+                    })
+                    .replace(' ', ', ')
+                : selectedDate.toLocaleDateString('en-GB')
               : label}
           </span>
           <span className={`transform transition-transform`}>
@@ -117,8 +128,10 @@ const DatePickerComp: React.FC<CustomDatePickerProps> = ({
             <DatePicker
               selected={selectedDate}
               onChange={handleDateChange}
-              showMonthYearPicker
-              dateFormat="MM/yyyy"
+              showMonthYearPicker={pickerMode === 'monthYear'}
+              dateFormat={pickerMode === 'monthYear' ? 'MM/yyyy' : 'dd/MM/yyyy'}
+              minDate={minDate}
+              maxDate={maxDate}
               inline
             />
           </div>

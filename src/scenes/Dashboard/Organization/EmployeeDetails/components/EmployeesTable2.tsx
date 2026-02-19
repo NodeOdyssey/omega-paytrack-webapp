@@ -45,11 +45,18 @@ import EmployeeDischargeModal from '../../../../../common/Modal/EmployeeDischarg
 import { formatDateDdMmYyyySlash } from '../../../../../utils/formatter';
 // import { set } from 'react-datepicker/dist/date_utils';
 import EmployeeIdCardModal from '../../../../../common/Modal/EmployeeIdCardModal';
+import DatePickerComp from '../../../../../common/AttendanceDatePicker/DatePickerComp';
 
 // Prop types
 type EmployeesTableProps = {
   employeesData: EmployeeTable[];
   refreshEmployeesData: () => void;
+};
+
+type EmployeeAdvanceDetail = {
+  amount: number;
+  paidOn: string;
+  recordedAt: string;
 };
 
 const EmployeesTable2: React.FC<EmployeesTableProps> = ({
@@ -376,6 +383,137 @@ const EmployeesTable2: React.FC<EmployeesTableProps> = ({
 
   const [selectedEmployeeData, setSelectedEmployeeData] =
     useState<EmployeeTable | null>(null);
+  const [showRecordAdvanceModal, setShowRecordAdvanceModal] =
+    useState<boolean>(false);
+  const [recordAdvanceAmount, setRecordAdvanceAmount] = useState<string>('');
+  const [recordAdvanceDate, setRecordAdvanceDate] = useState<Date | null>(
+    new Date()
+  );
+
+  const currentMonthStartDate = new Date(
+    new Date().getFullYear(),
+    new Date().getMonth(),
+    1
+  );
+  const currentMonthEndDate = new Date(
+    new Date().getFullYear(),
+    new Date().getMonth() + 1,
+    0
+  );
+
+  const sanitizeAdvanceDetails = (
+    details: EmployeeTable['advanceDetails']
+  ): EmployeeAdvanceDetail[] => {
+    if (!Array.isArray(details)) return [];
+    return details
+      .map((detail) => {
+        const parsedAmount = Number(detail?.amount ?? 0);
+        const paidOn = new Date(detail?.paidOn ?? '');
+        const recordedAt = new Date(detail?.recordedAt ?? '');
+        if (
+          Number.isNaN(parsedAmount) ||
+          Number.isNaN(paidOn.getTime()) ||
+          Number.isNaN(recordedAt.getTime())
+        ) {
+          return null;
+        }
+        return {
+          amount: parsedAmount,
+          paidOn: paidOn.toISOString(),
+          recordedAt: recordedAt.toISOString(),
+        };
+      })
+      .filter((detail): detail is EmployeeAdvanceDetail => detail !== null);
+  };
+
+  const allAdvanceDetails = sanitizeAdvanceDetails(
+    selectedEmployeeData?.advanceDetails
+  );
+  const currentYearAdvanceDetails = allAdvanceDetails.filter((detail) => {
+    const paidOnDate = new Date(detail.paidOn);
+    return paidOnDate.getFullYear() === new Date().getFullYear();
+  });
+  const currentMonthAdvanceDetails = currentYearAdvanceDetails
+    .filter((detail) => {
+      const paidOnDate = new Date(detail.paidOn);
+      return paidOnDate.getMonth() === new Date().getMonth();
+    })
+    .sort(
+      (a, b) => new Date(b.paidOn).getTime() - new Date(a.paidOn).getTime()
+    );
+
+  const currentMonthAdvanceCount =
+    currentMonthAdvanceDetails.length > 0
+      ? currentMonthAdvanceDetails.length
+      : Number(selectedEmployeeData?.noOfAdvancePayments ?? 0);
+  const currentMonthAdvanceTotal =
+    currentMonthAdvanceDetails.length > 0
+      ? currentMonthAdvanceDetails.reduce(
+          (sum, detail) => sum + Number(detail.amount || 0),
+          0
+        )
+      : Number(selectedEmployeeData?.salaryAdvance ?? 0);
+  const currentYearAdvanceTotal =
+    currentYearAdvanceDetails.length > 0
+      ? currentYearAdvanceDetails.reduce(
+          (sum, detail) => sum + Number(detail.amount || 0),
+          0
+        )
+      : Number(selectedEmployeeData?.salaryAdvance ?? 0);
+
+  const handleRecordAdvance = async () => {
+    if (!accessToken) return;
+
+    if (!actionEmployeeId) {
+      toast.error('Employee ID is missing. Please try again.');
+      return;
+    }
+
+    const parsedAmount = Number(recordAdvanceAmount);
+    if (!parsedAmount || Number.isNaN(parsedAmount) || parsedAmount <= 0) {
+      toast.error('Please enter a valid advance amount greater than zero.');
+      return;
+    }
+
+    if (!recordAdvanceDate) {
+      toast.error('Please select an advance payment date.');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const response = await axios.post(
+        `${api.baseUrl}/payrolls/advance`,
+        {
+          employeeId: actionEmployeeId,
+          amount: parsedAmount,
+          advanceDate: recordAdvanceDate.toISOString(),
+        },
+        { headers: { 'x-access-token': accessToken } }
+      );
+
+      if (response.data && response.data.success) {
+        toast.success(response.data.message);
+        setShowRecordAdvanceModal(false);
+        setRecordAdvanceAmount('');
+        setRecordAdvanceDate(new Date());
+        refreshEmployeesData();
+      } else {
+        toast.error(response.data?.message || 'Failed to record advance.');
+      }
+    } catch (error) {
+      if (error instanceof AxiosError && error.response) {
+        toast.error(error.response.data.message);
+        handleAxiosError(error);
+      } else if (error instanceof Yup.ValidationError) {
+        handleYupError(error);
+      } else {
+        toast.error('An unexpected error occurred');
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // const generateIdCard = (employee: Employee) => {
   //   setSelectedEmployeeData({
@@ -725,6 +863,22 @@ const EmployeesTable2: React.FC<EmployeesTableProps> = ({
               <img src={Generate_ID_Icon} alt="Resign" className="w-4 h-4" />
               <p className="text-responsive-table">Generate ID Card</p>
             </button>
+            <button
+              onClick={() => {
+                setActionModalIndex(null);
+                setRecordAdvanceAmount('');
+                setRecordAdvanceDate(new Date());
+                setShowRecordAdvanceModal(true);
+              }}
+              className={`action-menu-button ${
+                actionEmployeeName === ''
+                  ? 'opacity-50 pointer-events-none'
+                  : ''
+              }`}
+            >
+              <img src={EditPencil_Icon} alt="Advance" className="w-4 h-4" />
+              <p className="text-responsive-table">Record Advance</p>
+            </button>
           </div>
         )}
 
@@ -797,6 +951,113 @@ const EmployeesTable2: React.FC<EmployeesTableProps> = ({
             //   handleGenerateIdCard(actionEmployeeId);
             // }}
           />
+        )}
+
+        {showRecordAdvanceModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
+            <div className="w-full max-w-2xl rounded-md bg-white p-4 2xl:p-6 shadow-lg">
+              <h2 className="text-lg 2xl:text-xl font-semibold text-primaryText">
+                Record Salary Advance for {actionEmployeeName}
+              </h2>
+
+              <div className="mt-4 rounded-md border border-inputBorder bg-tableHeadingColour p-3 2xl:p-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 2xl:gap-4 text-sm 2xl:text-base">
+                  <div>
+                    <p className="text-secondaryText">Advances This Month</p>
+                    <p className="font-semibold">{currentMonthAdvanceCount}</p>
+                  </div>
+                  <div>
+                    <p className="text-secondaryText">Total This Month</p>
+                    <p className="font-semibold">
+                      Rs. {currentMonthAdvanceTotal.toFixed(2)}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-secondaryText">Total This Year</p>
+                    <p className="font-semibold">
+                      Rs. {currentYearAdvanceTotal.toFixed(2)}
+                    </p>
+                  </div>
+                </div>
+
+                {currentMonthAdvanceDetails.length > 0 && (
+                  <div className="mt-3 2xl:mt-4 max-h-32 overflow-y-auto">
+                    <p className="text-secondaryText text-sm mb-1.5">
+                      Current Month Advance Entries
+                    </p>
+                    <div className="space-y-1">
+                      {currentMonthAdvanceDetails.map((detail) => (
+                        <div
+                          key={`${detail.paidOn}-${detail.recordedAt}`}
+                          className="flex items-center justify-between text-sm"
+                        >
+                          <p>
+                            {new Date(detail.paidOn).toLocaleDateString(
+                              'en-GB'
+                            )}
+                          </p>
+                          <p className="font-medium">
+                            Rs. {Number(detail.amount || 0).toFixed(2)}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-primaryText text-sm font-medium text-left">
+                    Advance Amount
+                  </label>
+                  <input
+                    type="number"
+                    min={0}
+                    step="0.01"
+                    value={recordAdvanceAmount}
+                    onChange={(e) => setRecordAdvanceAmount(e.target.value)}
+                    className="h-10 2xl:h-11 rounded-md border border-inputBorder px-3 text-sm focus:outline-none focus:ring-1 focus:ring-bgPrimaryButton"
+                    placeholder="Enter amount"
+                  />
+                </div>
+
+                <div className="flex flex-col gap-1.5 w-full">
+                  <label className="text-primaryText text-sm font-medium text-left">
+                    Advance Payment Date
+                  </label>
+                  <DatePickerComp
+                    className="w-full h-full 2xl:h-full 2xl:w-full"
+                    label="Select Date"
+                    pickerMode="date"
+                    minDate={currentMonthStartDate}
+                    maxDate={currentMonthEndDate}
+                    externalSelectedDate={recordAdvanceDate}
+                    onChangeDate={(date) => setRecordAdvanceDate(date)}
+                  />
+                </div>
+              </div>
+
+              <div className="mt-6 flex items-center justify-end gap-3">
+                <button
+                  onClick={() => {
+                    setShowRecordAdvanceModal(false);
+                    setRecordAdvanceAmount('');
+                    setRecordAdvanceDate(new Date());
+                  }}
+                  className="h-10 px-4 rounded-md border border-inputBorder text-secondaryText font-medium hover:bg-gray-100"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleRecordAdvance}
+                  className="h-10 px-4 rounded-md bg-bgPrimaryButton text-white font-medium hover:bg-bgPrimaryButtonHover"
+                >
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
         )}
       </div>
     </>

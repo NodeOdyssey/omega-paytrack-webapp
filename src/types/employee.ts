@@ -64,6 +64,13 @@ export interface EmployeeTable {
   profilePhoto?: string | File;
   bloodGroup?: string;
   idMark?: string;
+  salaryAdvance?: number;
+  noOfAdvancePayments?: number;
+  advanceDetails?: {
+    amount: number;
+    paidOn: string;
+    recordedAt: string;
+  }[];
   // validFrom?: Date | null;
   // validTill: Date | null;
 }
