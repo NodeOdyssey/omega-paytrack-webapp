@@ -26,15 +26,15 @@ const App = (): React.ReactElement => {
     // { path: 'dms-control', element: <DMSControlCustom /> },
     // { path: 'dms-control-auto', element: <DMSControlAuto /> },
     {
-      path: 'paytrack',
+      path: 'app',
       element: <Navigate to="/app/home" />,
     },
     {
-      path: 'paytrack/demo',
+      path: 'app/demo',
       element: <SalaryReportTable data={demoSalaryReportTableData} />,
     },
     {
-      path: 'paytrack/viewds',
+      path: 'app/viewds',
       // element: (
       //   <DSReportTable
       //     dsReportTotalGrossPay={1000}
@@ -46,8 +46,8 @@ const App = (): React.ReactElement => {
       //   />
       // ),
     },
-    { path: 'paytrack/auth/:action', element: <Auth /> },
-    { path: 'paytrack/*', element: <Dashboard /> }, // Route for all dashboard related paths
+    { path: 'app/auth/:action', element: <Auth /> },
+    { path: 'app/*', element: <Dashboard /> }, // Route for all dashboard related paths
     { path: '*', element: <Error404 /> }, // Catch-all for 404
   ]);
 
