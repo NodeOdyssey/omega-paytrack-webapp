@@ -94,7 +94,7 @@ const Dashboard = (): React.ReactElement => {
         // toast.success(response.data.message);
         toast.success('Logout Successful. Redirecting to Login...');
         localStorage.removeItem('accessToken');
-        navigate('/paytrack/auth/login');
+        navigate('/app/auth/login');
       }
     } catch (error) {
       // handleError(error);
@@ -105,11 +105,11 @@ const Dashboard = (): React.ReactElement => {
   const organisationSubMenuItems = [
     {
       label: 'Employee Details',
-      onClick: () => navigate('/paytrack/organisation/employee-details'),
+      onClick: () => navigate('/app/organisation/employee-details'),
     },
     {
       label: 'Rank Details',
-      onClick: () => navigate('/paytrack/organisation/rank-details'),
+      onClick: () => navigate('/app/organisation/rank-details'),
     },
   ];
 
@@ -121,8 +121,8 @@ const Dashboard = (): React.ReactElement => {
       tooltipId: 'home-tooltip',
       isActive: false,
       tooltipContent: 'Home',
-      onClick: () => navigate('/paytrack/home'),
-      path: '/paytrack/home',
+      onClick: () => navigate('/app/home'),
+      path: '/app/home',
     },
     {
       label: 'Organisation',
@@ -131,7 +131,7 @@ const Dashboard = (): React.ReactElement => {
       tooltipId: 'organisation-tooltip',
       isActive: false,
       tooltipContent: 'Organisation',
-      onClick: () => navigate('/paytrack/organisation/rank-details'),
+      onClick: () => navigate('/app/organisation/rank-details'),
       path: '/organisation/rank-details',
       subMenuItems: organisationSubMenuItems,
     },
@@ -142,8 +142,8 @@ const Dashboard = (): React.ReactElement => {
       isActive: false,
       tooltipId: 'posts-tooltip',
       tooltipContent: 'Posts',
-      onClick: () => navigate('/paytrack/posts/post-details'),
-      path: '/paytrack/posts',
+      onClick: () => navigate('/app/posts/post-details'),
+      path: '/app/posts',
       // subMenuItems: postsSubMenuItems,
     },
     {
@@ -153,8 +153,8 @@ const Dashboard = (): React.ReactElement => {
       isActive: false,
       tooltipId: 'attendance-tooltip',
       tooltipContent: 'Attendance & Payroll',
-      onClick: () => navigate('/paytrack/attendance-and-payroll'),
-      path: '/paytrack/attendance-and-payroll',
+      onClick: () => navigate('/app/attendance-and-payroll'),
+      path: '/app/attendance-and-payroll',
     },
     {
       label: 'Reports',
@@ -163,8 +163,8 @@ const Dashboard = (): React.ReactElement => {
       isActive: false,
       tooltipId: 'reports-tooltip',
       tooltipContent: 'Reports',
-      path: '/paytrack/reports',
-      onClick: () => navigate('/paytrack/reports'),
+      path: '/app/reports',
+      onClick: () => navigate('/app/reports'),
     },
   ];
 
@@ -376,7 +376,7 @@ const Dashboard = (): React.ReactElement => {
             <Route path="posts/add-post" element={<AddPostForm />} />
             <Route path="posts/edit-post" element={<EditPostForm />} />
             {/* Error routes */}
-            <Route path="/paytrack/500" element={<Error500 />} />
+            <Route path="/app/500" element={<Error500 />} />
             <Route path="*" element={<Error404 />} /> {/* Catch-all for 404 */}
           </Routes>
         </div>

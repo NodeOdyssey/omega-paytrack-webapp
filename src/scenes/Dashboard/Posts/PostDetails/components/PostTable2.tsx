@@ -98,7 +98,7 @@ const PostTable2: React.FC<PostsTableProps> = ({
   };
 
   const handleEdit = (id: number) => {
-    navigate(`/paytrack/posts/edit-post?id=${id}`);
+    navigate(`/app/posts/edit-post?id=${id}`);
   };
 
   const handleDeactivate = async (id: number) => {

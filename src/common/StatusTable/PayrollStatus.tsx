@@ -14,7 +14,7 @@ export interface PayrollStatusProps {
 const PayrollStatus: React.FC<PayrollStatusProps> = ({ statusData, date }) => {
   const navigate = useNavigate();
   const handleEdit = (id: number) => {
-    navigate(`/paytrack/posts/edit-post?id=${id}`);
+    navigate(`/app/posts/edit-post?id=${id}`);
   };
   return (
     <>

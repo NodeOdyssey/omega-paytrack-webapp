@@ -275,7 +275,7 @@ const AddPostForm: React.FC = () => {
 
   const handleEditPost = (id: number) => {
     console.log('trying to edit post');
-    navigate(`/paytrack/posts/edit-post?id=${id}`);
+    navigate(`/app/posts/edit-post?id=${id}`);
   };
 
   const handleSubmitPostForm = async (e: React.FormEvent) => {

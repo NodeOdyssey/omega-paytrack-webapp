@@ -826,7 +826,7 @@ const EditPostForm: React.FC = () => {
                 e.preventDefault();
                 e.stopPropagation;
                 navigate(
-                  `/paytrack/posts/post-details/schedule-employees?postId=${editPostId}`
+                  `/app/posts/post-details/schedule-employees?postId=${editPostId}`
                 );
               }}
             >

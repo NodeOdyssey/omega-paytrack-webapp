@@ -28,7 +28,7 @@ export const useAuthStore = create<AuthStoreState & AuthStoreActions>()(
     user: null,
     accessToken: null,
     isLoading: false,
-    redirectUrl: '/paytrack/auth/login',
+    redirectUrl: '/app/auth/login',
     error: null,
 
     login: async (email: string, password: string) => {
@@ -50,13 +50,13 @@ export const useAuthStore = create<AuthStoreState & AuthStoreActions>()(
             user: response.data.user,
             accessToken: response.data.accessToken,
             isLoading: false,
-            redirectUrl: '/paytrack/home',
+            redirectUrl: '/app/home',
             error: null,
           });
           return {
             user: response.data.user,
             accessToken: response.data.accessToken,
-            redirectUrl: '/paytrack/home',
+            redirectUrl: '/app/home',
           };
         }
       } catch (error) {

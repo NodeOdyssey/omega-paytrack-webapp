@@ -129,7 +129,7 @@ const AddRankForm: React.FC = () => {
 
       if (response.data.success) {
         toast.success(response.data.message);
-        navigate('/paytrack/organisation/rank-details');
+        navigate('/app/organisation/rank-details');
       }
     } catch (error) {
       if (error instanceof Yup.ValidationError) {

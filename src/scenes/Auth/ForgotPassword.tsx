@@ -96,7 +96,7 @@ const ForgotPassword = (): JSX.Element => {
                 onClick={
                   isVerificationEmailSent
                     ? () => setIsVerificationEmailSent(false)
-                    : () => navigate('/paytrack/auth/login')
+                    : () => navigate('/app/auth/login')
                 }
                 className="flex flex-row items-center gap-2 text-black font-medium text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl"
               >

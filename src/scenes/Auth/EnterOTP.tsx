@@ -44,7 +44,7 @@ const EnterOTP = (): React.ReactElement => {
             </button>
           </div>
           <button
-            onClick={() => navigate('/paytrack/auth/login')}
+            onClick={() => navigate('/app/auth/login')}
             className="text-black font-medium md:text-base lg:text-lg xl:text-xl"
           >
             Back
@@ -94,7 +94,7 @@ const EnterOTP = (): React.ReactElement => {
           {/* cta */}
           <div>
             <button
-              onClick={() => navigate('/paytrack/auth/set-new-password')}
+              onClick={() => navigate('/app/auth/set-new-password')}
               className="bg-primaryText hover:bg-secondaryText hover:scale-110 text-white md:text-lg lg:text-xl xl:text-2xl font-medium rounded-md p-2 xl:p-3 w-full"
             >
               Verify

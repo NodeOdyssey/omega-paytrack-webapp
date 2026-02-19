@@ -92,7 +92,7 @@ const RanksTable2: React.FC<RanksTableProps> = ({
   };
 
   const handleEdit = (id: number) => {
-    navigate(`/paytrack/organisation/rank-details/edit-rank?id=${id}`);
+    navigate(`/app/organisation/rank-details/edit-rank?id=${id}`);
   };
 
   // menu position

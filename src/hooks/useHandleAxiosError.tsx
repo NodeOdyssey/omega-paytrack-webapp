@@ -36,7 +36,7 @@ const useHandleAxiosError = (
       } else if (response.status === 404) {
         data.message && toast.error(data.message);
       } else if (response.status === 401) {
-        navigate('/paytrack/auth/login');
+        navigate('/app/auth/login');
       } else if (response.status === 400) {
         setErrors({ [data.field || '']: data.message });
       } else {

@@ -18,7 +18,7 @@ const AttendanceStatus: React.FC<AttendanceStatusProps> = ({
 }: AttendanceStatusProps) => {
   // const navigate = useNavigate();
   // const handleEdit = (id: number) => {
-  //   navigate(`/paytrack/attendance?id=${id}`);
+  //   navigate(`/app/attendance?id=${id}`);
   // };
 
   const monthToNumber = (monthName: string) => {

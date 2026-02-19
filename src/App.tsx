@@ -27,7 +27,7 @@ const App = (): React.ReactElement => {
     // { path: 'dms-control-auto', element: <DMSControlAuto /> },
     {
       path: 'paytrack',
-      element: <Navigate to="/paytrack/home" />,
+      element: <Navigate to="/app/home" />,
     },
     {
       path: 'paytrack/demo',

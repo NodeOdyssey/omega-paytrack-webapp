@@ -172,7 +172,7 @@ const Login = () => {
             <button
               type="button"
               className="text-bgPrimaryButton text-sm font-medium"
-              onClick={() => navigate('/paytrack/auth/reset-password')}
+              onClick={() => navigate('/app/auth/reset-password')}
             >
               Forgot Password?
             </button>

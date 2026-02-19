@@ -208,7 +208,7 @@ const assamDistricts = [
   'South Salmara-Mankachar',
   'Tinsukia',
   'Udalguri',
-  'West Karbi Anglong'
+  'West Karbi Anglong',
 ];
 
 // Validation schema for schedule employee data row
@@ -454,7 +454,9 @@ const EditEmployeeForm: React.FC<EditEmployeeFormProps> = ({ showMenu }) => {
       setEmployeeFormData((prevData) => ({
         ...prevData,
         [name]:
-          name === 'dob' || name === 'dateOfJoining' || name === 'dateOfRejoining' // DATE OF REJOINING NEEDED HERE
+          name === 'dob' ||
+          name === 'dateOfJoining' ||
+          name === 'dateOfRejoining' // DATE OF REJOINING NEEDED HERE
             ? value || null
             : name === 'gender' || name === 'state'
               ? value.toUpperCase()
@@ -464,7 +466,9 @@ const EditEmployeeForm: React.FC<EditEmployeeFormProps> = ({ showMenu }) => {
     setEmployeeInfoChanged(true);
   };
 
-  const handleCustomDistrictChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCustomDistrictChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const { value } = e.target;
     setCustomDistrict(value);
     setEmployeeFormData((prevData) => ({
@@ -737,7 +741,7 @@ const EditEmployeeForm: React.FC<EditEmployeeFormProps> = ({ showMenu }) => {
     const editEmpId = urlParams.get('id');
     // console.log('in use efff', editEmpId);
     // if (!accessToken || !editEmpId) {
-    //   navigate('/paytrack/auth/login');
+    //   navigate('/app/auth/login');
     // }
     fetchEmployeeData(Number(editEmpId));
     setSavedEmployeeId(Number(editEmpId));
@@ -837,10 +841,8 @@ const EditEmployeeForm: React.FC<EditEmployeeFormProps> = ({ showMenu }) => {
         setEmployeeFilesChanged(false);
         setEmployeeDocsFormData({
           empName: savedEmployeeName,
-          docContract:
-            response.data.updatedEmployee.docContract || '',
-          docResume:
-            response.data.updatedEmployee.docResume || '',
+          docContract: response.data.updatedEmployee.docContract || '',
+          docResume: response.data.updatedEmployee.docResume || '',
           docPan: response.data.updatedEmployee.docPan || '',
           docOther: response.data.updatedEmployee.docOther || '',
           docAadhaar: response.data.updatedEmployee.docAadhaar || '',
@@ -1860,7 +1862,11 @@ const EditEmployeeForm: React.FC<EditEmployeeFormProps> = ({ showMenu }) => {
                     </label>
                     <select
                       name="district"
-                      value={isCustomDistrict ? 'OTHER' : (employeeFormData.district || '')}
+                      value={
+                        isCustomDistrict
+                          ? 'OTHER'
+                          : employeeFormData.district || ''
+                      }
                       onChange={handleEmployeeFormInputChange}
                       className="input-field cursor-pointer"
                     >

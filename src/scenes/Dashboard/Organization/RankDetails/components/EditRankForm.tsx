@@ -176,7 +176,7 @@ const EditRankForm: React.FC = () => {
 
       if (response.data.success) {
         toast.success(response.data.message);
-        navigate('/paytrack/organisation/rank-details');
+        navigate('/app/organisation/rank-details');
       } else {
         // Set errors based on the response field and message
         setErrors({ [response.data.field]: response.data.message });

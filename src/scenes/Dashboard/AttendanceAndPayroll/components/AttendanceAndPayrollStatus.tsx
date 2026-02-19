@@ -242,7 +242,7 @@ const AttendanceAndPayrollStatus: React.FC<AttendanceAndPayrollProps> = ({
                                 onClick={() => {
                                   if (item.reportName !== ReportName.NONE) {
                                     navigate(
-                                      `/paytrack/reports?postId=${item.postId}&reportType=${reportTypes.find((r) => r.reportCode === item.reportName)?.reportCode}&month=${monthToNumber(date.month)}&year=${date.year}`
+                                      `/app/reports?postId=${item.postId}&reportType=${reportTypes.find((r) => r.reportCode === item.reportName)?.reportCode}&month=${monthToNumber(date.month)}&year=${date.year}`
                                     );
                                   }
                                 }}

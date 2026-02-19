@@ -19,7 +19,7 @@ const useVerifyUserAuth = () => {
       // If the access token is not found, navigate to the login page
       if (!accessTokenFromLocalStorage) {
         setToken(null);
-        navigate('/paytrack/auth/login');
+        navigate('/app/auth/login');
       }
       if (accessTokenFromLocalStorage) {
         // Verify the access token using the API
@@ -33,7 +33,7 @@ const useVerifyUserAuth = () => {
         //   }
         // } catch (error) {
         //   setToken(null);
-        //   navigate('/paytrack/auth/login');
+        //   navigate('/app/auth/login');
         // }
         setToken(accessTokenFromLocalStorage);
       }

@@ -112,7 +112,7 @@ const EmployeesTable: React.FC<EmployeesTableProps> = ({
     }
   };
   const handleEdit = (id: number) => {
-    navigate(`/paytrack/organisation/employee-details/edit-employee?id=${id}`);
+    navigate(`/app/organisation/employee-details/edit-employee?id=${id}`);
   };
 
   /** Update employee status */

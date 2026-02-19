@@ -193,7 +193,7 @@ const assamDistricts = [
   'South Salmara-Mankachar',
   'Tinsukia',
   'Udalguri',
-  'West Karbi Anglong'
+  'West Karbi Anglong',
 ];
 
 // Validation schema for schedule employee data row
@@ -328,7 +328,9 @@ const AddEmployeeForm: React.FC<AddEmployeeFormProps> = ({ showMenu }) => {
     setEmployeeInfoChanged(true);
   };
 
-  const handleCustomDistrictChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCustomDistrictChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const { value } = e.target;
     setCustomDistrict(value);
     setEmployeeFormData((prevData) => ({
@@ -511,7 +513,7 @@ const AddEmployeeForm: React.FC<AddEmployeeFormProps> = ({ showMenu }) => {
 
           // Redirect to edit employee page after successful creation and all uploads
           navigate(
-            `/paytrack/organisation/employee-details/edit-employee?id=${empTableId}`
+            `/app/organisation/employee-details/edit-employee?id=${empTableId}`
           );
         }
       }
@@ -1875,7 +1877,11 @@ const AddEmployeeForm: React.FC<AddEmployeeFormProps> = ({ showMenu }) => {
                     </label>
                     <select
                       name="district"
-                      value={isCustomDistrict ? 'OTHER' : (employeeFormData.district || '')}
+                      value={
+                        isCustomDistrict
+                          ? 'OTHER'
+                          : employeeFormData.district || ''
+                      }
                       onChange={handleEmployeeFormInputChange}
                       className="input-field cursor-pointer"
                     >

@@ -110,7 +110,7 @@ const SetNewPassword = () => {
         <section className="relative bg-bgPrimary font-Mona_Sans w-full max-w-screen-sm px-[5%] py-[5%]  rounded-3xl flex flex-col md:gap-8 lg:gap-10 xl:gap-12">
           <div className="absolute top-[5%] left-[5%] flex gap-2">
             <button
-              onClick={() => navigate('/paytrack/auth/login')}
+              onClick={() => navigate('/app/auth/login')}
               className="flex flex-row items-center gap-2 text-black font-medium text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl"
             >
               <img src={Arrow_Back} alt="arrow_back" />
@@ -241,7 +241,7 @@ const SetNewPassword = () => {
             ) : (
               <button
                 className="bg-primaryText hover:bg-secondaryText hover:scale-110 text-white text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-medium rounded-md p-2 xl:p-3 w-full"
-                onClick={() => navigate('/paytrack/auth/login')}
+                onClick={() => navigate('/app/auth/login')}
               >
                 Continue
               </button>
@@ -254,7 +254,7 @@ const SetNewPassword = () => {
           {/* Back button */}
           <div className="absolute top-[5%] left-[5%] flex gap-2">
             <button
-              onClick={() => navigate('/paytrack/auth/login')}
+              onClick={() => navigate('/app/auth/login')}
               className="flex flex-row items-center gap-2 text-black font-medium text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl"
             >
               <img src={Arrow_Back} alt="arrow_back" />
@@ -375,7 +375,7 @@ const SetNewPassword = () => {
             ) : (
               <button
                 className="bg-bgPrimaryButton hover:bg-bgPrimaryButtonHover hover:scale-110 text-white text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-medium rounded-md p-3 xl:p-4 w-full"
-                onClick={() => navigate('/paytrack/auth/login')}
+                onClick={() => navigate('/app/auth/login')}
               >
                 Continue
               </button>
