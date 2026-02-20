@@ -82,6 +82,10 @@ import Download_Icon from './Download_Icon.svg';
 import Select_Report from './Select_Report.svg';
 import Home_Icon from './house.svg';
 import Invoice_Icon from './Invoice_Icon.svg';
+import PayrollStatus_Attendance from './PayrollStatus_Attendance.svg';
+import PayrollStatus_Payroll from './PayrollStatus_Payroll.svg';
+import PayrollStatus_Payslip from './PayrollStatus_Payslip.svg';
+import PayrollStatus_print from './PayrollStatus_print.svg';
 
 export {
   Eye_On,
@@ -168,4 +172,8 @@ export {
   Select_Report,
   Home_Icon,
   Invoice_Icon,
+  PayrollStatus_Attendance,
+  PayrollStatus_Payroll,
+  PayrollStatus_Payslip,
+  PayrollStatus_print,
 };
