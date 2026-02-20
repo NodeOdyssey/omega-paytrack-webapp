@@ -1,5 +1,5 @@
 /* Libraries */
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
@@ -21,6 +21,7 @@ import { Post } from '../../../../../types/post';
 /* Components */
 import ConfirmationModal from '../../../../../common/Modal/ConfirmationModal';
 import Loader from '../../../../../common/Loader/Loader';
+import DatePickerComp from '../../../../../common/AttendanceDatePicker/DatePickerComp';
 
 /* Assets */
 import {
@@ -29,6 +30,7 @@ import {
   EditPencil_Icon,
   ReactivateIcon,
   TableOptionsIcon,
+  Invoice_Icon,
 } from '../../../../../assets/icons';
 
 import { Tooltip } from 'react-tooltip';
@@ -37,6 +39,25 @@ import { Tooltip } from 'react-tooltip';
 type PostsTableProps = {
   postsData: Post[];
   refreshPostsData: () => void;
+};
+
+type InvoiceAttendanceMode = 'DERIVE_ATTENDANCE' | 'FULL_ATTENDANCE';
+
+type InvoiceStats = {
+  postId: number;
+  postName: string;
+  month: number;
+  year: number;
+  employeeCount: number;
+  monthDays: number;
+  totalActualPresentDays: number;
+  deriveTaxableValue: number;
+  fullAttendanceTaxableValue: number;
+  defaultGstRate: number;
+  existingInvoice: {
+    ID: number;
+    invoiceNumber: string;
+  } | null;
 };
 
 /* Post Table Main Component */
@@ -77,6 +98,116 @@ const PostTable2: React.FC<PostsTableProps> = ({
   const [showReactivateModal, setShowReactivateModal] =
     useState<boolean>(false);
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+  const [showGenerateInvoiceModal, setShowGenerateInvoiceModal] =
+    useState<boolean>(false);
+  const [invoiceMonthYear, setInvoiceMonthYear] = useState<Date>(new Date());
+  const [invoiceGstRate, setInvoiceGstRate] = useState<string>('18');
+  const [invoiceAttendanceMode, setInvoiceAttendanceMode] =
+    useState<InvoiceAttendanceMode>('DERIVE_ATTENDANCE');
+  const [isInvoiceStatsLoading, setIsInvoiceStatsLoading] = useState(false);
+  const [isGeneratingInvoice, setIsGeneratingInvoice] = useState(false);
+  const [invoiceStats, setInvoiceStats] = useState<InvoiceStats | null>(null);
+
+  const monthLabel = invoiceMonthYear.toLocaleDateString('en-US', {
+    month: 'long',
+    year: 'numeric',
+  });
+
+  const fetchInvoiceStats = async (postId: number, selectedDate: Date) => {
+    if (!accessToken || !postId) return;
+
+    const month = selectedDate.getMonth() + 1;
+    const year = selectedDate.getFullYear();
+
+    setIsInvoiceStatsLoading(true);
+    try {
+      const response = await axios.get(
+        `${api.baseUrl}/invoices/stats/${postId}/${month}/${year}`,
+        {
+          headers: {
+            'x-access-token': accessToken,
+          },
+        }
+      );
+
+      if (response.data?.success) {
+        setInvoiceStats(response.data.stats);
+        const defaultGstRate = response.data.stats?.defaultGstRate;
+        if (typeof defaultGstRate === 'number') {
+          setInvoiceGstRate(String(defaultGstRate));
+        }
+      }
+    } catch (error) {
+      setInvoiceStats(null);
+      handleAxiosError(error as AxiosError);
+    } finally {
+      setIsInvoiceStatsLoading(false);
+    }
+  };
+
+  const openGenerateInvoiceModal = async () => {
+    if (!selectedPost?.ID) return;
+    const currentDate = new Date();
+    setInvoiceMonthYear(currentDate);
+    setInvoiceAttendanceMode('DERIVE_ATTENDANCE');
+    setInvoiceGstRate('18');
+    setShowGenerateInvoiceModal(true);
+    await fetchInvoiceStats(selectedPost.ID, currentDate);
+  };
+
+  const handleGenerateInvoice = async () => {
+    if (!selectedPost?.ID || !accessToken) return;
+
+    if (invoiceStats?.existingInvoice?.ID) {
+      navigate(`/app/invoices/view?invoiceId=${invoiceStats.existingInvoice.ID}`);
+      return;
+    }
+
+    const gstRate = Number(invoiceGstRate);
+    if (!Number.isFinite(gstRate) || gstRate < 0 || gstRate > 100) {
+      toast.error('GST rate must be between 0 and 100.');
+      return;
+    }
+
+    setIsGeneratingInvoice(true);
+    try {
+      const response = await axios.post(
+        `${api.baseUrl}/invoices/generate`,
+        {
+          postId: selectedPost.ID,
+          month: invoiceMonthYear.getMonth() + 1,
+          year: invoiceMonthYear.getFullYear(),
+          attendanceMode: invoiceAttendanceMode,
+          gstRate,
+        },
+        {
+          headers: {
+            'x-access-token': accessToken,
+          },
+        }
+      );
+
+      if (response.data?.success) {
+        const invoiceId = response.data?.invoice?.invoiceId;
+        toast.success(
+          response.data.message || 'Invoice generated successfully.'
+        );
+        setShowGenerateInvoiceModal(false);
+        if (invoiceId) {
+          navigate(`/app/invoices/view?invoiceId=${invoiceId}`);
+        }
+      }
+    } catch (error) {
+      handleAxiosError(error as AxiosError);
+    } finally {
+      setIsGeneratingInvoice(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!showGenerateInvoiceModal || !selectedPost?.ID) return;
+    fetchInvoiceStats(selectedPost.ID, invoiceMonthYear);
+  }, [invoiceMonthYear, showGenerateInvoiceModal, selectedPost?.ID]);
 
   const handleDelete = async (id: number) => {
     setIsLoading(true);
@@ -373,6 +504,22 @@ const PostTable2: React.FC<PostsTableProps> = ({
                 />
                 <p className="text-responsive-table">Delete</p>
               </button>
+              {/* Invoice */}
+              <button
+                onClick={(event) => {
+                  event.stopPropagation();
+                  setActionModalIndex(null);
+                  openGenerateInvoiceModal();
+                }}
+                className="action-menu-button"
+              >
+                <img
+                  src={Invoice_Icon}
+                  alt="Invoice_Icon"
+                  className="action-modal-responsive-icon"
+                />
+                <p className="text-responsive-table">Invoice</p>
+              </button>
               {/* Deactivate / Reactivate Post */}
               {selectedPost?.status === 'Active' ? (
                 <button
@@ -442,6 +589,164 @@ const PostTable2: React.FC<PostsTableProps> = ({
             onCancel={() => setShowReactivateModal(false)}
             message={`Are you sure you want to reactivate the post ${currentRankName}?`}
           />
+        )}
+        {showGenerateInvoiceModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
+            <div className="w-full max-w-2xl rounded-md bg-white p-4 2xl:p-6 shadow-lg">
+              <h2 className="text-lg 2xl:text-xl font-semibold text-primaryText">
+                Invoice for {selectedPost?.postName || '-'} for the month of{' '}
+                {monthLabel}
+              </h2>
+
+              <div className="mt-4 rounded-md border border-inputBorder bg-tableHeadingColour p-3 2xl:p-4">
+                {isInvoiceStatsLoading ? (
+                  <p className="text-sm text-primaryText">
+                    Fetching invoice stats...
+                  </p>
+                ) : invoiceStats ? (
+                  <div className="space-y-3">
+                    {invoiceStats.existingInvoice && (
+                      <div className="rounded-md border border-[#f4cf74] bg-[#fff7de] px-3 py-2">
+                        <p className="text-xs font-medium text-[#8a6d1d]">
+                          Invoice already exists for this period:
+                        </p>
+                        <p className="text-sm font-semibold text-[#8a6d1d]">
+                          {invoiceStats.existingInvoice.invoiceNumber}
+                        </p>
+                      </div>
+                    )}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 2xl:gap-4">
+                      <div>
+                        <p className="text-xs text-primaryText/70">Employees</p>
+                        <p className="text-sm font-semibold text-primaryText">
+                          {invoiceStats.employeeCount}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-primaryText/70">
+                          Actual Present Days
+                        </p>
+                        <p className="text-sm font-semibold text-primaryText">
+                          {invoiceStats.totalActualPresentDays}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-primaryText/70">
+                          Derive Attendance Taxable Value
+                        </p>
+                        <p className="text-sm font-semibold text-primaryText">
+                          Rs. {invoiceStats.deriveTaxableValue.toFixed(2)}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-primaryText/70">
+                          Full Attendance Taxable Value
+                        </p>
+                        <p className="text-sm font-semibold text-primaryText">
+                          Rs. {invoiceStats.fullAttendanceTaxableValue.toFixed(2)}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text-sm text-red-600">
+                    Unable to load invoice stats for this month.
+                  </p>
+                )}
+              </div>
+
+              <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="flex flex-col gap-1">
+                  <p className="text-sm font-medium text-primaryText">
+                    Invoice Month
+                  </p>
+                  <DatePickerComp
+                    className="w-full h-full 2xl:h-full 2xl:w-full"
+                    label="Select Month"
+                    pickerMode="monthYear"
+                    externalSelectedDate={invoiceMonthYear}
+                    onChangeDate={setInvoiceMonthYear}
+                  />
+                </div>
+                <div className="flex flex-col gap-1">
+                  <label className="text-sm font-medium text-primaryText">
+                    GST Rate (%)
+                  </label>
+                  <input
+                    type="number"
+                    min={0}
+                    max={100}
+                    step="0.01"
+                    value={invoiceGstRate}
+                    onChange={(e) => setInvoiceGstRate(e.target.value)}
+                    className="w-full rounded-md border border-inputBorder px-3 py-2 text-sm outline-none focus:border-bgPrimaryButton"
+                  />
+                </div>
+              </div>
+
+              <div className="mt-4 rounded-md border border-inputBorder p-3 2xl:p-4">
+                <p className="text-sm font-medium text-primaryText">
+                  Attendance Strategy
+                </p>
+                <div className="mt-2 flex flex-col gap-2">
+                  <label className="inline-flex items-center gap-2 text-sm text-primaryText">
+                    <input
+                      type="radio"
+                      name="invoiceAttendanceMode"
+                      checked={invoiceAttendanceMode === 'DERIVE_ATTENDANCE'}
+                      onChange={() =>
+                        setInvoiceAttendanceMode('DERIVE_ATTENDANCE')
+                      }
+                    />
+                    Derive Attendance
+                  </label>
+                  <label className="inline-flex items-center gap-2 text-sm text-primaryText">
+                    <input
+                      type="radio"
+                      name="invoiceAttendanceMode"
+                      checked={invoiceAttendanceMode === 'FULL_ATTENDANCE'}
+                      onChange={() =>
+                        setInvoiceAttendanceMode('FULL_ATTENDANCE')
+                      }
+                    />
+                    Full Attendance
+                  </label>
+                </div>
+                <p className="mt-2 text-xs text-primaryText/70">
+                  Derive Attendance uses existing payroll values for the
+                  selected month. Full Attendance recomputes invoice billing by
+                  considering full month attendance for all employees,
+                  irrespective of actual present days.
+                </p>
+              </div>
+
+              <div className="mt-6 flex items-center justify-end gap-3">
+                <button
+                  type="button"
+                  onClick={() => setShowGenerateInvoiceModal(false)}
+                  className="px-4 py-2 rounded-md border border-inputBorder text-sm font-medium text-primaryText hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleGenerateInvoice}
+                  disabled={
+                    isGeneratingInvoice ||
+                    isInvoiceStatsLoading ||
+                    !invoiceStats
+                  }
+                  className="px-4 py-2 rounded-md bg-bgPrimaryButton text-sm font-medium text-white hover:bg-bgPrimaryButtonHover disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {invoiceStats?.existingInvoice?.ID
+                    ? 'View Invoice'
+                    : isGeneratingInvoice
+                      ? 'Generating...'
+                      : 'Generate'}
+                </button>
+              </div>
+            </div>
+          </div>
         )}
       </div>
     </>

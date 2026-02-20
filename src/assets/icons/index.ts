@@ -81,6 +81,7 @@ import ID_Card_Profile from './ID_Card_Profile.svg';
 import Download_Icon from './Download_Icon.svg';
 import Select_Report from './Select_Report.svg';
 import Home_Icon from './house.svg';
+import Invoice_Icon from './Invoice_Icon.svg';
 
 export {
   Eye_On,
@@ -166,4 +167,5 @@ export {
   Download_Icon,
   Select_Report,
   Home_Icon,
+  Invoice_Icon,
 };

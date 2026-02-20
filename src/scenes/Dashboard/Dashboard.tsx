@@ -25,6 +25,7 @@ import {
 import Aside from './Aside/Aside';
 import AttendanceAndPayroll from './AttendanceAndPayroll/AttendanceAndPayroll';
 import Reports from './Reports/Reports';
+import InvoiceReport from './Reports/components/InvoiceReport/InvoiceReport';
 import RankDetails from './Organization/RankDetails/RankDetails';
 import AddRankForm from './Organization/RankDetails/components/AddRankForm';
 import EditRankForm from './Organization/RankDetails/components/EditRankForm';
@@ -329,6 +330,7 @@ const Dashboard = (): React.ReactElement => {
             />
             <Route path="404" element={<Error404 />} />
             <Route path="reports" element={<Reports />} />
+            <Route path="invoices/view" element={<InvoiceReport />} />
             <Route
               path="organisation/rank-details"
               element={
