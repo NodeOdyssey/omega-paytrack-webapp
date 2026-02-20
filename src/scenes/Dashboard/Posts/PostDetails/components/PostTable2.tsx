@@ -108,6 +108,8 @@ const PostTable2: React.FC<PostsTableProps> = ({
   const [isGeneratingInvoice, setIsGeneratingInvoice] = useState(false);
   const [invoiceStats, setInvoiceStats] = useState<InvoiceStats | null>(null);
 
+  const invoiceFeatureEnabled = false;
+
   const monthLabel = invoiceMonthYear.toLocaleDateString('en-US', {
     month: 'long',
     year: 'numeric',
@@ -159,7 +161,9 @@ const PostTable2: React.FC<PostsTableProps> = ({
     if (!selectedPost?.ID || !accessToken) return;
 
     if (invoiceStats?.existingInvoice?.ID) {
-      navigate(`/app/invoices/view?invoiceId=${invoiceStats.existingInvoice.ID}`);
+      navigate(
+        `/app/invoices/view?invoiceId=${invoiceStats.existingInvoice.ID}`
+      );
       return;
     }
 
@@ -505,21 +509,23 @@ const PostTable2: React.FC<PostsTableProps> = ({
                 <p className="text-responsive-table">Delete</p>
               </button>
               {/* Invoice */}
-              <button
-                onClick={(event) => {
-                  event.stopPropagation();
-                  setActionModalIndex(null);
-                  openGenerateInvoiceModal();
-                }}
-                className="action-menu-button"
-              >
-                <img
-                  src={Invoice_Icon}
-                  alt="Invoice_Icon"
-                  className="action-modal-responsive-icon"
-                />
-                <p className="text-responsive-table">Invoice</p>
-              </button>
+              {invoiceFeatureEnabled && (
+                <button
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    setActionModalIndex(null);
+                    openGenerateInvoiceModal();
+                  }}
+                  className="action-menu-button"
+                >
+                  <img
+                    src={Invoice_Icon}
+                    alt="Invoice_Icon"
+                    className="action-modal-responsive-icon"
+                  />
+                  <p className="text-responsive-table">Invoice</p>
+                </button>
+              )}
               {/* Deactivate / Reactivate Post */}
               {selectedPost?.status === 'Active' ? (
                 <button
@@ -643,7 +649,8 @@ const PostTable2: React.FC<PostsTableProps> = ({
                           Full Attendance Taxable Value
                         </p>
                         <p className="text-sm font-semibold text-primaryText">
-                          Rs. {invoiceStats.fullAttendanceTaxableValue.toFixed(2)}
+                          Rs.{' '}
+                          {invoiceStats.fullAttendanceTaxableValue.toFixed(2)}
                         </p>
                       </div>
                     </div>
