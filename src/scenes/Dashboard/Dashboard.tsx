@@ -54,6 +54,7 @@ import { useAppStore } from '../../store/app';
 import useHandleAxiosError from '../../hooks/useHandleAxiosError';
 import useVerifyUserAuth from '../../hooks/useVerifyUserAuth';
 import useHandleYupError from '../../hooks/useHandleYupError';
+import PayslipReport from './Reports/components/PaySlipReport/PaySlipReport';
 
 // Main Component
 const Dashboard = (): React.ReactElement => {
@@ -167,6 +168,16 @@ const Dashboard = (): React.ReactElement => {
       path: '/app/reports',
       onClick: () => navigate('/app/reports'),
     },
+    // {
+    //   label: 'PaySlip',
+    //   icon: Reports_Icon,
+    //   hoverIcon: ReportsIconBlue,
+    //   isActive: false,
+    //   tooltipId: 'payslip-tooltip',
+    //   tooltipContent: 'PaySlip',
+    //   path: '/paytrack/attendance-payslip',
+    //   onClick: () => navigate('/paytrack/attendance-payslip'),
+    // },
   ];
 
   /* Loader */
@@ -238,7 +249,7 @@ const Dashboard = (): React.ReactElement => {
         logo={
           showMenu
             ? 'https://pscpl-paytrack.s3.ap-south-1.amazonaws.com/assets/logo_small.svg'
-            : 'https://pscpl-paytrack.s3.ap-south-1.amazonaws.com/assets/logo_big.svg'
+            : 'https://pscpl-paytrack.s3.ap-south-1.amazonaws.com/assets/Sidebar_Logo.svg'
         }
         menuItems={menuItems}
         onToggleMenu={toggleShowMenu}
@@ -330,6 +341,7 @@ const Dashboard = (): React.ReactElement => {
             />
             <Route path="404" element={<Error404 />} />
             <Route path="reports" element={<Reports />} />
+            <Route path="/attendance-payslip" element={<PayslipReport />} />
             <Route path="invoices/view" element={<InvoiceReport />} />
             <Route
               path="organisation/rank-details"

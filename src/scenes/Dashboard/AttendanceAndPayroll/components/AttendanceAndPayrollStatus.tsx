@@ -357,7 +357,7 @@ const AttendanceAndPayrollStatus: React.FC<AttendanceAndPayrollProps> = ({
                                 onClick={() => {
                                   if (item.reportName !== ReportName.NONE) {
                                     navigate(
-                                      `/paytrack/reports?postId=${item.postId}&reportType=${reportTypes.find((r) => r.reportCode === item.reportName)?.reportCode}&month=${monthToNumber(date.month)}&year=${date.year}`
+                                      `/app/reports?postId=${item.postId}&reportType=${reportTypes.find((r) => r.reportCode === item.reportName)?.reportCode}&month=${monthToNumber(date.month)}&year=${date.year}`
                                     );
                                   }
                                 }}
@@ -377,7 +377,7 @@ const AttendanceAndPayrollStatus: React.FC<AttendanceAndPayrollProps> = ({
                               <button
                                 onClick={() =>
                                   navigate(
-                                    `/paytrack/attendance-payslip?postId=${item.postId}&month=${monthToNumber(
+                                    `/app/attendance-payslip?postId=${item.postId}&month=${monthToNumber(
                                       date.month
                                     )}&year=${date.year}`
                                   )
@@ -501,7 +501,7 @@ const AttendanceAndPayrollStatus: React.FC<AttendanceAndPayrollProps> = ({
                                     return;
 
                                   navigate(
-                                    `/paytrack/reports?postId=${item.postId}&reportType=${
+                                    `/app/reports?postId=${item.postId}&reportType=${
                                       reportTypes.find(
                                         (r) => r.reportCode === item.reportName
                                       )?.reportCode
@@ -699,7 +699,7 @@ const AttendanceAndPayrollStatus: React.FC<AttendanceAndPayrollProps> = ({
                         ?.reportName !== ReportName.NONE
                     ) {
                       navigate(
-                        `/paytrack/reports?postId=${actionPostId}&reportType=${reportTypes.find((r) => r.reportCode === statusData.find((p) => p.postId === actionPostId)?.reportName)?.reportCode}&month=${monthToNumber(date.month)}&year=${date.year}`
+                        `/app/reports?postId=${actionPostId}&reportType=${reportTypes.find((r) => r.reportCode === statusData.find((p) => p.postId === actionPostId)?.reportName)?.reportCode}&month=${monthToNumber(date.month)}&year=${date.year}`
                       );
                     }
                   }}
@@ -730,7 +730,7 @@ const AttendanceAndPayrollStatus: React.FC<AttendanceAndPayrollProps> = ({
                     if (!post) return;
 
                     navigate(
-                      `/paytrack/attendance-payslip?postId=${post.postId}&month=${monthToNumber(
+                      `/app/attendance-payslip?postId=${post.postId}&month=${monthToNumber(
                         date.month
                       )}&year=${date.year}`
                     );
