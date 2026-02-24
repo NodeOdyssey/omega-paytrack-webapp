@@ -70,8 +70,7 @@ const Dashboard = (): React.ReactElement => {
 
   // Logout modal management
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
-  const [isLogoutHovered, setIsLogoutHovered] = useState(false);
-  console.log('isLogoutHovered', isLogoutHovered);
+  // const [isLogoutHovered, setIsLogoutHovered] = useState(false);
 
   const openLogoutModal = () => {
     setIsLogoutModalOpen(true);
@@ -82,7 +81,6 @@ const Dashboard = (): React.ReactElement => {
   };
 
   const handleLogout = async () => {
-    console.log('accessToken', localStorage.getItem('accessToken'));
     try {
       const response = await axios.post(
         `${api.baseUrl}${api.logout}`,
@@ -189,7 +187,7 @@ const Dashboard = (): React.ReactElement => {
 
   useEffect(() => {
     const userRole = localStorage.getItem('userRole');
-    console.log('User Role: ', userRole);
+    // console.log('User Role: ', userRole);
     if (userRole === 'DevAdmin') {
       setIsDevAdmin(true);
     } else {
@@ -208,7 +206,7 @@ const Dashboard = (): React.ReactElement => {
   };
 
   const handleRedeployClient = async () => {
-    console.log('handleRedeployClient');
+    // console.log('handleRedeployClient');
     setIsLoading(true);
     // if (!) return;
     try {
@@ -302,8 +300,8 @@ const Dashboard = (): React.ReactElement => {
             </div>
             {/* logout button */}
             <div
-              onMouseEnter={() => setIsLogoutHovered(true)} // Set hover state to true
-              onMouseLeave={() => setIsLogoutHovered(false)} // Set hover state to false
+              // onMouseEnter={() => setIsLogoutHovered(true)} // Set hover state to true
+              // onMouseLeave={() => setIsLogoutHovered(false)} // Set hover state to false
             >
               <button
                 onClick={openLogoutModal}

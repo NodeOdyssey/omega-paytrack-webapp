@@ -30,6 +30,10 @@ export interface Employee {
   remarks?: string;
   // empStatus?: EmployeeStatus;
   isPosted: boolean;
+  idCardName?: string;
+  idCardIssued?: boolean;
+  idCardIssueDate?: string | null;
+  idCardExpiryDate?: string | null;
   profilePhoto?: string | File;
 }
 
@@ -64,6 +68,10 @@ export interface EmployeeTable {
   profilePhoto?: string | File;
   bloodGroup?: string;
   idMark?: string;
+  idCardName?: string;
+  idCardIssued?: boolean;
+  idCardIssueDate?: string | null;
+  idCardExpiryDate?: string | null;
   salaryAdvance?: number;
   noOfAdvancePayments?: number;
   advanceDetails?: {

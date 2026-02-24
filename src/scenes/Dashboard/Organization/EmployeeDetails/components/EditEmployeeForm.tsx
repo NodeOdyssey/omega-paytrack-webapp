@@ -1267,6 +1267,7 @@ const EditEmployeeForm: React.FC<EditEmployeeFormProps> = ({ showMenu }) => {
   // Generate Id card
   const [showEmployeeIdCardModal, setShowEmployeeIdCardModal] =
     useState<boolean>(false);
+  const isIdCardIssued = Boolean(employeeFormData?.idCardIssued);
 
   const handleGenerateIdCard = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -2490,7 +2491,7 @@ const EditEmployeeForm: React.FC<EditEmployeeFormProps> = ({ showMenu }) => {
                       ).map((historyItem, index) => (
                         <tr
                           key={`history-row-${index}`}
-                          className="border border-tableBorder bg-gray-50 text-responsive-table"
+                          className="border border-tableBorder bg-gray-50 text-responsive-table h-10 2xl:h-12"
                         >
                           <td className="px-2  border border-tableBorder">
                             <p className="text-left px-2 ">
@@ -2519,7 +2520,7 @@ const EditEmployeeForm: React.FC<EditEmployeeFormProps> = ({ showMenu }) => {
                               //           ? `Date of Discharge: ${formatDateDdMmYyyySlash(historyItem.statuscharge)}`
                               //           : ''
                               // }
-                              className={` px-3 rounded-full font-semibold text-xs pointer-events-auto ${
+                              className={`py-1 px-0 rounded-full font-semibold text-responsive-table pointer-events-auto ${
                                 historyItem.status === 'Active'
                                   ? 'bg-[#0C672B4D] text-[#0C672B]'
                                   : historyItem.status === 'Discharged'
@@ -3413,7 +3414,7 @@ const EditEmployeeForm: React.FC<EditEmployeeFormProps> = ({ showMenu }) => {
           </div>
           <div className="flex justify-center gap-6 py-4 mb-4">
             <SecondaryButton onClick={(e) => handleGenerateIdCard(e)}>
-              Generate ID Card
+              {isIdCardIssued ? 'View ID Card' : 'Generate ID Card'}
             </SecondaryButton>
             <SmallButton type="submit">Save</SmallButton>
           </div>
@@ -3504,6 +3505,7 @@ const EditEmployeeForm: React.FC<EditEmployeeFormProps> = ({ showMenu }) => {
             setShowEmployeeIdCardModal(false);
           }}
           employeeId={savedEmployeeId}
+          mode={isIdCardIssued ? 'view' : 'generate'}
           // employee={{
           //   ...employeeFormData,
           //   postName: savedEmployeeScheduleData.postName,

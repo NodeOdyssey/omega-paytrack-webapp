@@ -915,7 +915,11 @@ const EmployeesTable2: React.FC<EmployeesTableProps> = ({
               }`}
             >
               <img src={Generate_ID_Icon} alt="Resign" className="w-4 h-4" />
-              <p className="text-responsive-table">Generate ID Card</p>
+              <p className="text-responsive-table">
+                {selectedEmployeeData?.idCardIssued
+                  ? 'View ID Card'
+                  : 'Generate ID Card'}
+              </p>
             </button>
             <button
               onClick={() => {
@@ -997,6 +1001,7 @@ const EmployeesTable2: React.FC<EmployeesTableProps> = ({
             }}
             // employee={selectedEmployeeData}
             employeeId={actionEmployeeId}
+            mode={selectedEmployeeData.idCardIssued ? 'view' : 'generate'}
             // onConfirm={(e) => {
             //   e.stopPropagation();
             //   e.preventDefault();

@@ -31,6 +31,15 @@ type EmployeeStoreActions = {
   fetchAllEmployees: (accessToken: string) => Promise<void>;
   fetchEmployeeById: (id: number, accessToken: string) => Promise<void>;
   generateIdCard: (id: number, accessToken: string) => Promise<void>;
+  updateIdCardDetails: (
+    id: number,
+    data: {
+      idCardName: string;
+      idCardIssueDate: string;
+      idCardExpiryDate: string;
+    },
+    accessToken: string
+  ) => Promise<EmployeeTable | null>;
   addEmployee: (
     data: Employee,
     accessToken: string
@@ -154,6 +163,36 @@ export const useEmployeeStore = create<EmployeeStore>()(
           } catch (error) {
             set({ error: (error as AxiosError).message });
             toast.error('Failed to fetch employee');
+          } finally {
+            set({ isLoading: false });
+          }
+        },
+
+        updateIdCardDetails: async (id, data, accessToken) => {
+          set({ isLoading: true, error: null });
+          try {
+            const response = await axios.patch<{ employee: EmployeeTable }>(
+              `${api.baseUrl}${api.employees}/${id}/id-card`,
+              data,
+              {
+                headers: {
+                  'Content-Type': 'application/json',
+                  'x-access-token': accessToken,
+                },
+              }
+            );
+            set((state) => ({
+              employees: state.employees.map((emp) =>
+                emp.ID === id ? { ...emp, ...response.data.employee } : emp
+              ),
+              employee: response.data.employee,
+            }));
+            toast.success('ID card details updated successfully');
+            return response.data.employee;
+          } catch (error) {
+            set({ error: (error as AxiosError).message });
+            toast.error('Failed to update ID card details');
+            return null;
           } finally {
             set({ isLoading: false });
           }

@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Loader from '../Loader/Loader';
 import {
   Arrow_Back,
-  EditPencil_Icon,
   Download_Icon,
   ID_Card_BottomShape,
   ID_Card_Profile,
@@ -23,6 +22,7 @@ import { toPng } from 'html-to-image';
 import { Tooltip } from 'react-tooltip';
 import SecondaryButton from '../Button/SecondaryButton';
 import PrimaryButton from '../Button/PrimaryButton';
+import { toast } from 'react-toastify';
 import {
   formatDateDdMmYyyySlash,
   getFormattedDateYyyyMmDdDash,
@@ -34,16 +34,19 @@ type EmployeeIdCardModalProps = {
   onCancel: () => void;
   // employee: EmployeeTable;
   employeeId: number;
+  mode: 'generate' | 'view';
   // profile: string;
 };
 
 const EmployeeIdCardModal: React.FC<EmployeeIdCardModalProps> = ({
   onCancel,
   employeeId,
+  mode,
 }) => {
   const accessToken = localStorage.getItem('accessToken');
   const {
     fetchEmployeeById,
+    updateIdCardDetails,
     employee,
     isLoading,
     employeeProfilePhoto,
@@ -55,12 +58,14 @@ const EmployeeIdCardModal: React.FC<EmployeeIdCardModalProps> = ({
   console.log('Card employee : ', employee);
 
   // Local state
-  const [showEditForm, setShowEditForm] = useState(false);
+  const [showEditForm, setShowEditForm] = useState(mode === 'generate');
   const [idCardEmployee, setIdCardEmployee] = useState<EmployeeTable | null>(
     null
   );
   const [editedIdCardEmployee, setEditedIdCardEmployee] =
     useState<EmployeeTable | null>(null);
+  const [idCardName, setIdCardName] = useState('');
+  const [editedIdCardName, setEditedIdCardName] = useState('');
   const [validFrom, setValidFrom] = useState<Date>(new Date());
   const [validTill, setValidTill] = useState<Date>(
     new Date(Date.now() + 364 * 24 * 60 * 60 * 1000)
@@ -69,6 +74,10 @@ const EmployeeIdCardModal: React.FC<EmployeeIdCardModalProps> = ({
   const [editedValidTill, setEditedValidTill] = useState<Date>(
     new Date(Date.now() + 364 * 24 * 60 * 60 * 1000)
   );
+
+  useEffect(() => {
+    setShowEditForm(mode === 'generate');
+  }, [mode, employeeId]);
 
   // Fetch employee data on mount or when employeeId changes
   useEffect(() => {
@@ -79,8 +88,24 @@ const EmployeeIdCardModal: React.FC<EmployeeIdCardModalProps> = ({
   // Set local state when employee data is available
   useEffect(() => {
     if (!employee) return;
+    const employeeIssueDate = employee.idCardIssueDate
+      ? new Date(employee.idCardIssueDate)
+      : new Date();
+    const employeeExpiryDate = employee.idCardExpiryDate
+      ? new Date(employee.idCardExpiryDate)
+      : new Date(employeeIssueDate.getTime() + 364 * 24 * 60 * 60 * 1000);
+    const employeeIdCardName = employee.idCardName?.trim()
+      ? employee.idCardName
+      : employee.empName;
+
     setIdCardEmployee(employee);
     setEditedIdCardEmployee(employee);
+    setIdCardName(employeeIdCardName);
+    setEditedIdCardName(employeeIdCardName);
+    setValidFrom(employeeIssueDate);
+    setValidTill(employeeExpiryDate);
+    setEditedValidFrom(employeeIssueDate);
+    setEditedValidTill(employeeExpiryDate);
   }, [employee]);
 
   /* refs */
@@ -142,6 +167,40 @@ const EmployeeIdCardModal: React.FC<EmployeeIdCardModalProps> = ({
     }
   }, [idCardEmployee]);
 
+  const handleSaveAndGenerate = async () => {
+    if (!idCardEmployee?.ID || !accessToken) {
+      toast.error('Unable to save ID card details right now.');
+      return;
+    }
+
+    const payload = {
+      idCardName: editedIdCardName.trim() || editedIdCardEmployee?.empName || '',
+      idCardIssueDate: getFormattedDateYyyyMmDdDash(editedValidFrom),
+      idCardExpiryDate: getFormattedDateYyyyMmDdDash(editedValidTill),
+    };
+
+    if (!payload.idCardName) {
+      toast.error('Please provide a name for the ID card.');
+      return;
+    }
+
+    const updatedEmployee = await updateIdCardDetails(
+      idCardEmployee.ID,
+      payload,
+      accessToken
+    );
+
+    if (!updatedEmployee) return;
+
+    setIdCardEmployee(updatedEmployee);
+    setEditedIdCardEmployee(updatedEmployee);
+    setIdCardName(payload.idCardName);
+    setEditedIdCardName(payload.idCardName);
+    setValidFrom(editedValidFrom);
+    setValidTill(editedValidTill);
+    setShowEditForm(false);
+  };
+
   // Prevent rendering until employee data is loaded
   if (isLoading || !employee || !idCardEmployee || !editedIdCardEmployee) {
     return (
@@ -196,35 +255,11 @@ const EmployeeIdCardModal: React.FC<EmployeeIdCardModalProps> = ({
           {/* Options */}
           {!showEditForm && (
             <>
-              {/* Edit */}
-              <div
-                data-tooltip-id="edit_IdCard"
-                data-tooltip-content="Edit ID Card Information"
-                className="absolute top-[120px] 2xl:top-[116px] right-10 flex w-10 h-10 p-2 justify-center items-center bg-transparent border border-gray-300 rounded-md"
-              >
-                <div
-                  data-tooltip-id="edit_IdCard"
-                  data-tooltip-content="Edit ID Card Information"
-                >
-                  <img
-                    src={EditPencil_Icon}
-                    alt="EditPencil_Icon"
-                    className="w-5 h-5 2xl:w-6 2xl:h-6 cursor-pointer"
-                    onClick={() => setShowEditForm(true)}
-                  />
-                </div>
-                <Tooltip
-                  id="edit_IdCard"
-                  content="Edit inormation"
-                  place="right"
-                  className="custom-tooltip"
-                />
-              </div>
               {/* Download */}
               <div
                 data-tooltip-id="download_IdCard"
                 data-tooltip-content="Download ID Card Information"
-                className="absolute top-[170px] 2xl:top-[166px] right-10 flex w-10 h-10 p-2 justify-center items-center bg-transparent border border-gray-300 rounded-md"
+                className="absolute top-[120px] 2xl:top-[116px] right-10 flex w-10 h-10 p-2 justify-center items-center bg-transparent border border-gray-300 rounded-md"
               >
                 <div
                   data-tooltip-id="download_IdCard"
@@ -252,9 +287,7 @@ const EmployeeIdCardModal: React.FC<EmployeeIdCardModalProps> = ({
           <div className="flex flex-col gap-8">
             {/* Title */}
             <p className="text-xl font-medium">
-              {showEditForm
-                ? 'Edit card information'
-                : 'ID Card generated succsessfully'}
+              {showEditForm ? 'Confirm Card Information' : 'Employee ID Card'}
             </p>
 
             {/* Edit Form / ID Card */}
@@ -271,17 +304,8 @@ const EmployeeIdCardModal: React.FC<EmployeeIdCardModalProps> = ({
                     <input
                       type="text"
                       className="border p-2 rounded text-xs w-[230px] h-8 2xl:h-10"
-                      value={editedIdCardEmployee.empName}
-                      onChange={(e) =>
-                        setEditedIdCardEmployee((prev) =>
-                          prev
-                            ? {
-                                ...prev,
-                                empName: e.target.value,
-                              }
-                            : prev
-                        )
-                      }
+                      value={editedIdCardName}
+                      onChange={(e) => setEditedIdCardName(e.target.value)}
                     />
 
                     {/* Rank */}
@@ -457,7 +481,7 @@ const EmployeeIdCardModal: React.FC<EmployeeIdCardModalProps> = ({
                             <div className="text-center mt-1">
                               {/* <h3 className="text-base font-bold text-[#4B4853]"> */}
                               <h3 className="text-base font-bold text-black">
-                                {editedIdCardEmployee.empName
+                                {(idCardName || editedIdCardEmployee.empName)
                                   .toLowerCase()
                                   .split(' ')
                                   .map(
@@ -822,23 +846,21 @@ const EmployeeIdCardModal: React.FC<EmployeeIdCardModalProps> = ({
                   <SecondaryButton
                     onClick={() => {
                       setEditedIdCardEmployee(idCardEmployee);
+                      setEditedIdCardName(idCardName);
                       setEditedValidFrom(validFrom);
                       setEditedValidTill(validTill);
+                      if (mode === 'generate' && !idCardEmployee?.idCardIssued) {
+                        onCancel();
+                        return;
+                      }
                       setShowEditForm(false);
                     }}
                   >
                     Cancel
                   </SecondaryButton>
                   {/* Save */}
-                  <PrimaryButton
-                    onClick={() => {
-                      setIdCardEmployee(editedIdCardEmployee);
-                      setValidFrom(editedValidFrom);
-                      setValidTill(editedValidTill);
-                      setShowEditForm(false);
-                    }}
-                  >
-                    Save
+                  <PrimaryButton onClick={handleSaveAndGenerate}>
+                    Save & Generate
                   </PrimaryButton>
                 </>
               ) : (
@@ -855,6 +877,18 @@ const EmployeeIdCardModal: React.FC<EmployeeIdCardModalProps> = ({
                   <PrimaryButton disabled type="button">
                     Print
                   </PrimaryButton>
+                  <SecondaryButton
+                    type="button"
+                    onClick={() => {
+                      setEditedIdCardEmployee(idCardEmployee);
+                      setEditedIdCardName(idCardName);
+                      setEditedValidFrom(validFrom);
+                      setEditedValidTill(validTill);
+                      setShowEditForm(true);
+                    }}
+                  >
+                    Regenerate ID Card
+                  </SecondaryButton>
                 </>
               )}
             </div>
