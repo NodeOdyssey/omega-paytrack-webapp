@@ -463,7 +463,7 @@ const EmployeeIdCardModal: React.FC<EmployeeIdCardModalProps> = ({
                             className="mx-auto w-12 h-8"
                           />
                           <h2 className="text-[10px] text-left leading-tight font-semibold text-[#1C1C1C]">
-                            Purbanchal Security Consultants Private Ltd.
+                            Omega Security Solutions
                           </h2>
                         </div>
 
@@ -793,14 +793,14 @@ const EmployeeIdCardModal: React.FC<EmployeeIdCardModalProps> = ({
                         <div className="flex flex-col gap-0.5 px-3.5">
                           {/* Company name */}
                           <p className="text-[8px] font-semibold">
-                            Purbanchal Security Consultants Private Ltd.
+                            Omega Security Solutions
                           </p>
                           {/* Address */}
                           <div className="flex items-center justify-between">
                             <div className="flex flex-col gap-1 text-[8px] w-2/3">
                               <p className="text-left leading-snug">
-                                59, JB Lane, Nabagraha Road, Krishna Nagar,
-                                Silphukuri, Guwahati, Assam, 781003
+                              55, Fatick Chandra Rd, Latasil, Uzan Bazar,
+                              Guwahati, Assam 781001
                               </p>
                               <p className="flex justify-center">
                                 <span className="font-semibold w-[38px] text-left">
@@ -810,7 +810,8 @@ const EmployeeIdCardModal: React.FC<EmployeeIdCardModalProps> = ({
                                   :
                                 </span>
                                 <span className="font-medium w-[72px] text-left">
-                                  +91-98640 21429 / +91-84860 21432
+                                  {/* +91-98640 21429 / +91-84860 21432  */}
+                                  ASK FOR PHONE NUMBER FROM HR
                                 </span>
                               </p>
                             </div>
@@ -824,7 +825,7 @@ const EmployeeIdCardModal: React.FC<EmployeeIdCardModalProps> = ({
                                 className="w-14 h-14 object-cover"
                                 alt="QR_Code_Square"
                               />
-                              <span>www.purbanchalsecurity.com</span>
+                              <span>https://omegasecuritysolution.co/</span>
                             </div>
                           </div>
                           <p className="flex  text-[8px]">
@@ -835,7 +836,8 @@ const EmployeeIdCardModal: React.FC<EmployeeIdCardModalProps> = ({
                               :
                             </span>
                             <span className="font-medium w-[72px] text-left">
-                              support@purbanchalsecurity.com
+                              {/* support@omegasecuritysolution.co */}
+                              ASK FOR EMAIL FROM HR
                             </span>
                           </p>
                         </div>

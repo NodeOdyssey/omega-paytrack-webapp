@@ -324,7 +324,7 @@ const DSLReport: React.FC<DSLReportProps> = ({
     // Add company details
     doc.setFont('Mona_Sans', 'bold');
     doc.setFontSize(14);
-    doc.text('Purbanchal Security Consultants Pvt. Ltd.', 550, 35, {
+    doc.text('Omega Security Solutions', 550, 35, {
       align: 'center',
     });
     doc.setFont('Mona_Sans', 'normal');
@@ -934,10 +934,11 @@ const DSLReport: React.FC<DSLReportProps> = ({
 
                         <div className="text-center">
                           <h2 className="reportPrimaryHeadings2 text-primaryText">
-                            Purbanchal Security Consultants Pvt. Ltd.
+                            Omega Security Solutions
                           </h2>
                           <h3 className="reportPrimaryHeadings2 text-primaryText">
-                            Silpukhuri, Guwahati-03
+                            55, Fatick Chandra Rd, Latasil, Uzan Bazar, 
+                            Guwahati, Assam 781001, India
                           </h3>
                         </div>
                         {/* Post Name and Date */}

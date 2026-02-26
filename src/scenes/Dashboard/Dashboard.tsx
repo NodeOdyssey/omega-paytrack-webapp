@@ -263,7 +263,7 @@ const Dashboard = (): React.ReactElement => {
           className={`z-20 h-10 2xl:h-14 2xl fixed top-0 ${showMenu ? 'left-16 2xl:left-20' : 'left-36 md:left-44 lg:left-52 xl:left-56'} right-0 px-4 2xl:px-8 py-4 flex items-center font-semibold justify-between shadow-md bg-white`}
         >
           <h2 className="text-left font-semibold text-sm 2xl:text-base">
-            Purbanchal Security Consultants Pvt. Ltd.
+            Omega Security Solutions
           </h2>
           <div className="flex items-center gap-4">
             {/* admin settings */}

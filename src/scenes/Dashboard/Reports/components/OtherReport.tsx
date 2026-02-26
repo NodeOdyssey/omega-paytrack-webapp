@@ -318,12 +318,12 @@ const OtherReport: React.FC<OtherReportProps> = ({
     // Add Company Details
     doc.setFont('Mona_Sans', 'bold');
     doc.setFontSize(12);
-    doc.text('Purbanchal Security Consultants Pvt. Ltd.', 550, 35, {
+    doc.text('Omega Security Solutions', 550, 35, {
       align: 'center',
     }); // Centered
     doc.setFont('Mona_Sans', 'normal');
     doc.setFontSize(10);
-    doc.text('Silpukhuri, Guwahati-03', 550, 55, { align: 'center' });
+    doc.text('Uzan Bazar, Guwahati-01', 550, 55, { align: 'center' });
 
     // Add Payroll Information
     doc.setFontSize(10);
@@ -897,10 +897,11 @@ const OtherReport: React.FC<OtherReportProps> = ({
 
                         <div className="text-center">
                           <h2 className="reportPrimaryHeadings2 text-primaryText">
-                            Purbanchal Security Consultants Pvt. Ltd.
+                            Omega Security Solutions
                           </h2>
                           <h3 className="reportPrimaryHeadings2 text-primaryText">
-                            Silpukhuri, Guwahati-03
+                            55, Fatick Chandra Rd, Latasil, Uzan Bazar, 
+                            Guwahati, Assam 781001, India
                           </h3>
                         </div>
                         {/* Post Name and Date */}

@@ -127,7 +127,7 @@ export const handleExportDsReportPDF = async (
   // Add Company Details
   doc.setFont('Mona_Sans', 'bold');
   doc.setFontSize(14);
-  doc.text('Purbanchal Security Consultants Pvt. Ltd.', 150, 20, {
+  doc.text('Omega Security Solutions', 150, 20, {
     align: 'center',
   }); // Centered
   doc.setFont('Mona_Sans', 'normal');

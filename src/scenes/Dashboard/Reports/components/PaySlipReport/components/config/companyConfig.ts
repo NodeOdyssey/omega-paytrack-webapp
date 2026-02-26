@@ -1,8 +1,8 @@
 export const companyConfig = {
-  name: 'Purbanchal Security Consultants Pvt. Ltd.',
+  name: 'Omega Security Solutions',
 
   address:
-    '59, JB Lane, Nabagraha Road, Krishna Nagar, Silphukuri, Guwahati, Assam, 781003',
+    '55, Fatick Chandra Rd, Latasil, Uzan Bazar, Guwahati, Assam, 781001',
 
   logo: '/Logo.png', // public folder path
 };

@@ -110,8 +110,8 @@ const NewPayrollReportTable: React.FC<NewPayrollReportTableProps> = ({
             handleExportNewPayrollExcel(
               tableData,
               'NewPayroll_Report',
-              'Purbanchal Security Consultants Pvt. Ltd.',
-              'Silpukhuri, Guwahati-03',
+              'Omega Security Solutions',
+              'Uzan Bazar, Guwahati-01',
               periodStartDate,
               periodEndDate,
               totalNetPay

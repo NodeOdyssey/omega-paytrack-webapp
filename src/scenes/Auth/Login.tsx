@@ -74,7 +74,7 @@ const Login = () => {
         <section className="border border-inputBorder font-Mona_Sans w-full max-w-sm lg:max-w-lg px-[5%] 2xl:px-[4%] py-[2%] rounded-3xl flex flex-col space-y-2">
           <header>
             {/* <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-center text-primaryText">
-          Purbanchal PayTrack
+          Omega PayTrack
         </h1> */}
             <div className="flex items-center justify-center">
               <img

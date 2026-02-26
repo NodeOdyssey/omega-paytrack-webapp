@@ -390,7 +390,7 @@
 //                             className="mx-auto w-14 h-9"
 //                           />
 //                           <h2 className="text-[10px] text-left font-semibold text-[#1C1C1C]">
-//                             Purbanchal Security Consultants Private Ltd.
+//                             Omega Security Solutions
 //                           </h2>
 //                         </div>
 
@@ -613,7 +613,7 @@
 //                         <div className="flex flex-col gap-0.5 px-3.5">
 //                           {/* Company name */}
 //                           <p className="text-[8px] font-semibold">
-//                             Purbanchal Security Consultants Private Ltd.
+//                             Omega Security Solutions
 //                           </p>
 //                           {/* Address */}
 //                           <div className="flex items-center justify-between">
@@ -642,7 +642,7 @@
 //                                 className="w-14 h-14 object-cover"
 //                                 alt="QR_Code_Square"
 //                               />
-//                               <span>www.purbanchalsecurity.com</span>
+//                               <span>https://omegasecuritysolution.co/</span>
 //                             </div>
 //                           </div>
 //                           <p className="flex  text-[8px]">
@@ -653,7 +653,7 @@
 //                               :
 //                             </span>
 //                             <span className="font-medium w-[72px] text-left">
-//                               support@purbanchalsecurity.com
+//                               support@omegasecuritysolution.co
 //                             </span>
 //                           </p>
 //                         </div>

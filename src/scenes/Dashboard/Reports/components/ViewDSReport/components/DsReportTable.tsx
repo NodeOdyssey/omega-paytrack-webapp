@@ -139,8 +139,8 @@ const DSReportTable: React.FC<DsReportDataTableProps> = ({
             handleExportDsExcel(
               tableData,
               'DS_Report',
-              'Purbanchal Security Consultants Pvt. Ltd.',
-              'Silpukhuri, Guwahati-03',
+              'Omega Security Solutions',
+              'Uzan Bazar, Guwahati-01',
               periodStartDate,
               periodEndDate,
               totalNetPay

@@ -91,8 +91,8 @@ const PTaxReportTable: React.FC<PTaxReportTableProps> = ({
             handleExportPTaxExcel(
               tableData,
               'PTax_Report',
-              'Purbanchal Security Consultants Pvt. Ltd.',
-              'Silpukhuri, Guwahati-03',
+              'Omega Security Solutions',
+              'Uzan Bazar, Guwahati-01',
               periodStartDate,
               periodEndDate,
               grandTotalPtax

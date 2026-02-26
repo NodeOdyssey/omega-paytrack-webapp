@@ -20,10 +20,11 @@ const CompanyAndPeriod: React.FC<CompanyAndPeriodProps> = ({
       <div className="w-full">
         <div className="text-center">
           <h2 className="reportPrimaryHeadings2 text-primaryText">
-            Purbanchal Security Consultants Pvt. Ltd.
+            Omega Security Solutions
           </h2>
           <h3 className="reportPrimaryHeadings2 text-primaryText">
-            Silpukhuri, Guwahati-03
+            55, Fatick Chandra Rd, Latasil, Uzan Bazar, 
+            Guwahati, Assam 781001, India
           </h3>
         </div>
         <div className="flex justify-between items-center mt-4">

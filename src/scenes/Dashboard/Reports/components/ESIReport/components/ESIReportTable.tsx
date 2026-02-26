@@ -98,8 +98,8 @@ const ESIReportTable: React.FC<ESIReportTableProps> = ({
             handleExportEsIExcel(
               tableData,
               'ESI_Report',
-              'Purbanchal Security Consultants Pvt. Ltd.',
-              'Silpukhuri, Guwahati-03',
+              'Omega Security Solutions',
+              'Uzan Bazar, Guwahati-01',
               periodStartDate,
               periodEndDate,
               grandTotalEsi
