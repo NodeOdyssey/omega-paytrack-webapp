@@ -108,7 +108,7 @@ const PostTable2: React.FC<PostsTableProps> = ({
   const [isGeneratingInvoice, setIsGeneratingInvoice] = useState(false);
   const [invoiceStats, setInvoiceStats] = useState<InvoiceStats | null>(null);
 
-  const invoiceFeatureEnabled = false;
+  const invoiceFeatureEnabled = true;
 
   const monthLabel = invoiceMonthYear.toLocaleDateString('en-US', {
     month: 'long',
