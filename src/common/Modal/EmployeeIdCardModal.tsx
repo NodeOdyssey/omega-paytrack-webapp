@@ -18,7 +18,7 @@ import PSCPL_Logo_Golden from '../../../PSCPL_Logo_Golden.png';
 import QR_Code_Square from '../../../QR_Code_Square.png';
 
 import { EmployeeTable } from '../../types/employee';
-import { toPng } from 'html-to-image';
+import { toJpeg } from 'html-to-image';
 import { Tooltip } from 'react-tooltip';
 import SecondaryButton from '../Button/SecondaryButton';
 import PrimaryButton from '../Button/PrimaryButton';
@@ -150,16 +150,32 @@ const EmployeeIdCardModal: React.FC<EmployeeIdCardModalProps> = ({
       console.error('Refs are not attached');
       return;
     }
+
+    const getHighResJpeg = async (cardRef: HTMLDivElement) => {
+      const scale = 4;
+      const width = cardRef.offsetWidth;
+      const height = cardRef.offsetHeight;
+
+      return toJpeg(cardRef, {
+        quality: 1,
+        pixelRatio: scale,
+        canvasWidth: width * scale,
+        canvasHeight: height * scale,
+        backgroundColor: '#ffffff',
+        cacheBust: true,
+      });
+    };
+
     try {
-      const frontDataUrl = await toPng(frontRef.current);
+      const frontDataUrl = await getHighResJpeg(frontRef.current);
       const frontLink = document.createElement('a');
-      frontLink.download = `${idCardEmployee?.empId}_Front.png`;
+      frontLink.download = `${idCardEmployee?.empName}_${idCardEmployee?.ID}_Front.jpeg`;
       frontLink.href = frontDataUrl;
       frontLink.click();
 
-      const backDataUrl = await toPng(backRef.current);
+      const backDataUrl = await getHighResJpeg(backRef.current);
       const backLink = document.createElement('a');
-      backLink.download = `${idCardEmployee?.empId}_Back.png`;
+      backLink.download = `${idCardEmployee?.empName}_${idCardEmployee?.ID}_Back.jpeg`;
       backLink.href = backDataUrl;
       backLink.click();
     } catch (err) {
@@ -174,7 +190,8 @@ const EmployeeIdCardModal: React.FC<EmployeeIdCardModalProps> = ({
     }
 
     const payload = {
-      idCardName: editedIdCardName.trim() || editedIdCardEmployee?.empName || '',
+      idCardName:
+        editedIdCardName.trim() || editedIdCardEmployee?.empName || '',
       idCardIssueDate: getFormattedDateYyyyMmDdDash(editedValidFrom),
       idCardExpiryDate: getFormattedDateYyyyMmDdDash(editedValidTill),
     };
@@ -258,7 +275,7 @@ const EmployeeIdCardModal: React.FC<EmployeeIdCardModalProps> = ({
               {/* Download */}
               <div
                 data-tooltip-id="download_IdCard"
-                data-tooltip-content="Download ID Card Information"
+                data-tooltip-content="Download ID Card"
                 className="absolute top-[120px] 2xl:top-[116px] right-10 flex w-10 h-10 p-2 justify-center items-center bg-transparent border border-gray-300 rounded-md"
               >
                 <div
@@ -730,7 +747,7 @@ const EmployeeIdCardModal: React.FC<EmployeeIdCardModalProps> = ({
                           </div>
 
                           {/* list */}
-                          <ul className="list-disc list-inside text-[8px]  text-left flex flex-col gap-1.5">
+                          <ul className="list-disc list-inside text-[8px] text-left flex flex-col gap-1.5">
                             <li>
                               Employee must carry this card at all times while
                               on duty.
@@ -849,7 +866,10 @@ const EmployeeIdCardModal: React.FC<EmployeeIdCardModalProps> = ({
                       setEditedIdCardName(idCardName);
                       setEditedValidFrom(validFrom);
                       setEditedValidTill(validTill);
-                      if (mode === 'generate' && !idCardEmployee?.idCardIssued) {
+                      if (
+                        mode === 'generate' &&
+                        !idCardEmployee?.idCardIssued
+                      ) {
                         onCancel();
                         return;
                       }

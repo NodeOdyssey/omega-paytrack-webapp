@@ -65,12 +65,16 @@ const PostDetails: React.FC<PostDetailsProps> = ({ onAddPostClick }) => {
   const [allPostsData, setPostsData] = React.useState<Post[]>([]);
 
   const fetchAllPosts = async () => {
+    const token = accessToken ?? localStorage.getItem('accessToken');
+    if (!token) {
+      setIsLoading(false);
+      return;
+    }
     setIsLoading(true);
-    if (!accessToken) return;
     try {
       const response = await axios.get(`${api.baseUrl}/posts`, {
         headers: {
-          'x-access-token': accessToken,
+          'x-access-token': token,
         },
       });
       if (response.data && response.data.success) {

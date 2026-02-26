@@ -144,7 +144,7 @@ const Aside: React.FC<AsideMenuProps> = ({
         className={`fixed z-30 left-0 top-0 h-screen transition-all duration-300 ease-in-out ${
           showMenu
             ? 'w-16 2xl:w-20 py-2 2xl:py-4 px-2'
-            : 'w-36 md:w-44 lg:w-52 xl:w-56 px-4 2xl:px-8 py-10 2xl:py-14'
+            : 'w-36 md:w-44 lg:w-52 xl:w-56 px-4 2xl:px-8 py-10 2xl:py-4'
         }   shadow-md font-Mona_Sans bg-bgAside`}
       >
         {/* toggle menu drawer */}
@@ -169,7 +169,7 @@ const Aside: React.FC<AsideMenuProps> = ({
 
         {/* <div className="flex flex-col gap-16 2xl:gap-24 px-1 2xl:px-2 relative items-center"> */}
         <div
-          className={`flex flex-col ${showMenu ? 'gap-16 2xl:gap-24' : 'gap-16 2xl:gap-10'} px-1 2xl:px-2 relative items-center`}
+          className={`flex flex-col ${showMenu ? 'gap-16 2xl:gap-24' : 'gap-16 2xl:gap-14'} px-1 2xl:px-2 relative items-center`}
         >
           {/* logo */}
           <div
