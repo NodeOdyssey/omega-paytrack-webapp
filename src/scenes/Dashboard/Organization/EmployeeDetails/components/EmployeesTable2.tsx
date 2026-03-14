@@ -389,8 +389,10 @@ const EmployeesTable2: React.FC<EmployeesTableProps> = ({
   const [recordAdvanceDate, setRecordAdvanceDate] = useState<Date | null>(
     new Date()
   );
-  const [isPayrollGeneratedForCurrentMonth, setIsPayrollGeneratedForCurrentMonth] =
-    useState<boolean>(false);
+  const [
+    isPayrollGeneratedForCurrentMonth,
+    setIsPayrollGeneratedForCurrentMonth,
+  ] = useState<boolean>(false);
   const [advancePayrollStatusMessage, setAdvancePayrollStatusMessage] =
     useState<string>('');
 
@@ -1025,7 +1027,7 @@ const EmployeesTable2: React.FC<EmployeesTableProps> = ({
               )}
 
               <div className="mt-4 rounded-md border border-inputBorder bg-tableHeadingColour p-3 2xl:p-4">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 2xl:gap-4 text-sm 2xl:text-base">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 2xl:gap-4 text-sm 2xl:text-base">
                   <div>
                     <p className="text-secondaryText">Advances This Month</p>
                     <p className="font-semibold">{currentMonthAdvanceCount}</p>
@@ -1036,12 +1038,12 @@ const EmployeesTable2: React.FC<EmployeesTableProps> = ({
                       Rs. {currentMonthAdvanceTotal.toFixed(2)}
                     </p>
                   </div>
-                  <div>
+                  {/* <div>
                     <p className="text-secondaryText">Total This Year</p>
                     <p className="font-semibold">
                       Rs. {currentYearAdvanceTotal.toFixed(2)}
                     </p>
-                  </div>
+                  </div> */}
                 </div>
 
                 {currentMonthAdvanceDetails.length > 0 && (
