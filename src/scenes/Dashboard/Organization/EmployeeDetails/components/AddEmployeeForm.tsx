@@ -68,10 +68,55 @@ type EmployeeSchedule = {
   dateOfPosting: Date | null;
 };
 
+type GuardianType = 'F' | 'H';
+
+const GUARDIAN_SEPARATOR = ' - ';
+
+const parseGuardianName = (
+  guardianName: string | null | undefined
+): { name: string; relation: GuardianType } => {
+  const trimmedValue = guardianName?.trim() || '';
+  if (!trimmedValue) {
+    return { name: '', relation: 'F' };
+  }
+
+  const separatorIndex = trimmedValue.lastIndexOf(GUARDIAN_SEPARATOR);
+  if (separatorIndex === -1) {
+    return { name: trimmedValue, relation: 'F' };
+  }
+
+  const parsedRelation = trimmedValue
+    .slice(separatorIndex + GUARDIAN_SEPARATOR.length)
+    .trim()
+    .toUpperCase();
+
+  if (parsedRelation === 'F' || parsedRelation === 'H') {
+    return {
+      name: trimmedValue.slice(0, separatorIndex).trim(),
+      relation: parsedRelation,
+    };
+  }
+
+  return { name: trimmedValue, relation: 'F' };
+};
+
+const buildGuardianName = (
+  guardianName: string,
+  relation: GuardianType
+): string => {
+  const trimmedName = guardianName.trim();
+  if (!trimmedName) {
+    return '';
+  }
+
+  const parsed = parseGuardianName(trimmedName);
+  return `${parsed.name} - ${relation}`;
+};
+
 /* Form Validation Schema */
 const employeeValidationSchema = Yup.object().shape({
   empName: Yup.string().required('Full Name is required'),
-  fatherName: Yup.string().required(`Father's Name is required`),
+  fatherName: Yup.string().required(`Father/Husband Name is required`),
   gender: Yup.string().required(`Gender is required`),
   dob: Yup.string().required(`Date of Birth is required`),
   phoneNum: Yup.string()
@@ -162,38 +207,38 @@ const defaultEmployeeDocsFormData: EmployeeDocuments = {
 
 // Assam Districts List
 const assamDistricts = [
-  'Bajali',
-  'Baksa',
-  'Barpeta',
-  'Bongaigaon',
-  'Cachar',
-  'Charaideo',
-  'Chirang',
-  'Darrang',
-  'Dhemaji',
-  'Dhubri',
-  'Dibrugarh',
-  'Dima Hasao',
-  'Goalpara',
-  'Golaghat',
-  'Hailakandi',
-  'Jorhat',
-  'Kamrup',
-  'Kamrup Metropolitan',
-  'Karbi Anglong',
-  'Karimganj',
-  'Kokrajhar',
-  'Lakhimpur',
-  'Majuli',
-  'Morigaon',
-  'Nagaon',
-  'Nalbari',
-  'Sivasagar',
-  'Sonitpur',
-  'South Salmara-Mankachar',
-  'Tinsukia',
-  'Udalguri',
-  'West Karbi Anglong',
+  'BAJALI',
+  'BAKSA',
+  'BARPETA',
+  'BONGAIGAON',
+  'CACHAR',
+  'CHARAIDEO',
+  'CHIRANG',
+  'DARRANG',
+  'DHEMAJI',
+  'DHUBRI',
+  'DIBRUGARH',
+  'DIMA HASAO',
+  'GOALPARA',
+  'GOLAGHAT',
+  'HAILAKANDI',
+  'JORHAT',
+  'KAMRUP',
+  'KAMRUP METRO',
+  'KARBI ANGLONG',
+  'KARIMGANJ',
+  'KOKRAJHAR',
+  'LAKHIMPUR',
+  'MAJULI',
+  'MORIGAON',
+  'NAGAON',
+  'NALBARI',
+  'SIVASAGAR',
+  'SONITPUR',
+  'SOUTH SALMARA-MANKACHAR',
+  'TINSUKIA',
+  'UDALGURI',
+  'WEST KARBI ANGLONG',
 ];
 
 // Validation schema for schedule employee data row
@@ -234,6 +279,7 @@ const AddEmployeeForm: React.FC<AddEmployeeFormProps> = ({ showMenu }) => {
   const [employeeFormData, setEmployeeFormData] = useState<Employee>(
     defaultEmployeeFormData
   );
+  const [guardianType, setGuardianType] = useState<GuardianType>('F');
   const [isEmployeeFormSubmitted, setIsEmployeeFormSubmitted] = useState(false);
   const [savedEmployeeId, setSavedEmployeeId] = useState<number>(0);
   const [savedEmployeeName, setSavedEmployeeName] = useState<string>('');
@@ -440,8 +486,16 @@ const AddEmployeeForm: React.FC<AddEmployeeFormProps> = ({ showMenu }) => {
       //   return;
       // }
 
+      const normalizedEmployeeFormData = {
+        ...employeeFormData,
+        fatherName: buildGuardianName(
+          employeeFormData.fatherName || '',
+          guardianType
+        ),
+      };
+
       // Validate employee data
-      await employeeValidationSchema.validate(employeeFormData, {
+      await employeeValidationSchema.validate(normalizedEmployeeFormData, {
         abortEarly: false,
       });
 
@@ -452,7 +506,7 @@ const AddEmployeeForm: React.FC<AddEmployeeFormProps> = ({ showMenu }) => {
         // Add the Employee
         response = await axios.post(
           `${api.baseUrl}/employees`,
-          employeeFormData,
+          normalizedEmployeeFormData,
           {
             headers: {
               'Content-Type': 'application/json',
@@ -493,7 +547,12 @@ const AddEmployeeForm: React.FC<AddEmployeeFormProps> = ({ showMenu }) => {
             phoneNum: Number(response.data.employee.phoneNum),
             altPhoneNum: Number(response.data.employee.altPhoneNum),
             contractDate: formatDateToYMD(response.data.employee.contractDate),
+            fatherName: parseGuardianName(response.data.employee.fatherName)
+              .name,
           });
+          setGuardianType(
+            parseGuardianName(response.data.employee.fatherName).relation
+          );
           setEmployeeDocsFormData({
             empName: response.data.employee.employeeName || '',
             profilePhoto: response.data.employee.profilePhoto || '',
@@ -513,7 +572,7 @@ const AddEmployeeForm: React.FC<AddEmployeeFormProps> = ({ showMenu }) => {
 
           // Redirect to edit employee page after successful creation and all uploads
           navigate(
-            `/app/organisation/employee-details/edit-employee?id=${empTableId}`
+            `/paytrack/organisation/employee-details/edit-employee?id=${empTableId}`
           );
         }
       }
@@ -524,7 +583,7 @@ const AddEmployeeForm: React.FC<AddEmployeeFormProps> = ({ showMenu }) => {
           // Update the Employee info
           response = await axios.patch(
             `${api.baseUrl}/employees/${savedEmployeeId}`,
-            employeeFormData,
+            normalizedEmployeeFormData,
             {
               headers: {
                 'Content-Type': 'application/json',
@@ -598,12 +657,17 @@ const AddEmployeeForm: React.FC<AddEmployeeFormProps> = ({ showMenu }) => {
         }
       );
       if (response.data.success) {
+        const parsedGuardian = parseGuardianName(
+          response.data.employee.fatherName
+        );
         console.log('fetchEmployeeData: ', response.data.employee);
         setEmployeeFormData({
           ...response.data.employee,
           phoneNum: Number(response.data.employee.phoneNum),
           contractDate: formatDateToYMD(response.data.employee.contractDate),
+          fatherName: parsedGuardian.name,
         });
+        setGuardianType(parsedGuardian.relation);
         setEmployeeDocsFormData({
           empName: response.data.employee.employeeName || '',
           profilePhoto: response.data.employee.profilePhoto || '',
@@ -1608,16 +1672,32 @@ const AddEmployeeForm: React.FC<AddEmployeeFormProps> = ({ showMenu }) => {
                   {/* Father's name */}
                   <div className="input-wrapper cursor-pointer">
                     <label className="input-label">
-                      Father&apos;s Name
+                      Father / Husband&apos;s Name
                       <span className="input-error pl-1">*</span>
                     </label>
-                    <input
-                      type="text"
-                      name="fatherName"
-                      value={employeeFormData.fatherName || ''}
-                      onChange={handleEmployeeFormInputChange}
-                      className="input-field"
-                    />
+                    <div className="relative">
+                      <input
+                        type="text"
+                        name="fatherName"
+                        value={employeeFormData.fatherName || ''}
+                        onChange={handleEmployeeFormInputChange}
+                        className="input-field pr-12"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setGuardianType((prevType) =>
+                            prevType === 'F' ? 'H' : 'F'
+                          );
+                          setEmployeeInfoChanged(true);
+                        }}
+                        className="absolute right-1 top-1/2 -translate-y-1/2 h-8 min-w-8 px-2 rounded border border-inputBorder text-redText font-semibold"
+                        aria-label="Toggle father or husband"
+                        title="Toggle Father/Husband"
+                      >
+                        {guardianType}
+                      </button>
+                    </div>
                     {errors.fatherName && (
                       <p className="input-error">{errors.fatherName}</p>
                     )}

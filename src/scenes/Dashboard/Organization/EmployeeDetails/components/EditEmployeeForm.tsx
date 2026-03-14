@@ -80,11 +80,56 @@ import EmployeeIdCardModal from '../../../../../common/Modal/EmployeeIdCardModal
 //   dateOfPosting: Date | null;
 // };
 
+type GuardianType = 'F' | 'H';
+
+const GUARDIAN_SEPARATOR = ' - ';
+
+const parseGuardianName = (
+  guardianName: string | null | undefined
+): { name: string; relation: GuardianType } => {
+  const trimmedValue = guardianName?.trim() || '';
+  if (!trimmedValue) {
+    return { name: '', relation: 'F' };
+  }
+
+  const separatorIndex = trimmedValue.lastIndexOf(GUARDIAN_SEPARATOR);
+  if (separatorIndex === -1) {
+    return { name: trimmedValue, relation: 'F' };
+  }
+
+  const parsedRelation = trimmedValue
+    .slice(separatorIndex + GUARDIAN_SEPARATOR.length)
+    .trim()
+    .toUpperCase();
+
+  if (parsedRelation === 'F' || parsedRelation === 'H') {
+    return {
+      name: trimmedValue.slice(0, separatorIndex).trim(),
+      relation: parsedRelation,
+    };
+  }
+
+  return { name: trimmedValue, relation: 'F' };
+};
+
+const buildGuardianName = (
+  guardianName: string,
+  relation: GuardianType
+): string => {
+  const trimmedName = guardianName.trim();
+  if (!trimmedName) {
+    return '';
+  }
+
+  const parsed = parseGuardianName(trimmedName);
+  return `${parsed.name} - ${relation}`;
+};
+
 /* Form Validation Schema */
 const employeeValidationSchema = Yup.object().shape({
   // empId: Yup.string().required('Employee Id is required'),
   empName: Yup.string().required('Full Name is required'),
-  fatherName: Yup.string().required(`Father's Name is required`),
+  fatherName: Yup.string().required(`Father/Husband Name is required`),
   gender: Yup.string().required(`Gender is required`),
   dob: Yup.string().required(`Date of Birth is required`),
   phoneNum: Yup.string()
@@ -177,38 +222,38 @@ const defaultEmployeeDocsFormData: EmployeeDocuments = {
 
 // Assam Districts List
 const assamDistricts = [
-  'Bajali',
-  'Baksa',
-  'Barpeta',
-  'Bongaigaon',
-  'Cachar',
-  'Charaideo',
-  'Chirang',
-  'Darrang',
-  'Dhemaji',
-  'Dhubri',
-  'Dibrugarh',
-  'Dima Hasao',
-  'Goalpara',
-  'Golaghat',
-  'Hailakandi',
-  'Jorhat',
-  'Kamrup',
-  'Kamrup Metropolitan',
-  'Karbi Anglong',
-  'Karimganj',
-  'Kokrajhar',
-  'Lakhimpur',
-  'Majuli',
-  'Morigaon',
-  'Nagaon',
-  'Nalbari',
-  'Sivasagar',
-  'Sonitpur',
-  'South Salmara-Mankachar',
-  'Tinsukia',
-  'Udalguri',
-  'West Karbi Anglong',
+  'BAJALI',
+  'BAKSA',
+  'BARPETA',
+  'BONGAIGAON',
+  'CACHAR',
+  'CHARAIDEO',
+  'CHIRANG',
+  'DARRANG',
+  'DHEMAJI',
+  'DHUBRI',
+  'DIBRUGARH',
+  'DIMA HASAO',
+  'GOALPARA',
+  'GOLAGHAT',
+  'HAILAKANDI',
+  'JORHAT',
+  'KAMRUP',
+  'KAMRUP METRO',
+  'KARBI ANGLONG',
+  'KARIMGANJ',
+  'KOKRAJHAR',
+  'LAKHIMPUR',
+  'MAJULI',
+  'MORIGAON',
+  'NAGAON',
+  'NALBARI',
+  'SIVASAGAR',
+  'SONITPUR',
+  'SOUTH SALMARA-MANKACHAR',
+  'TINSUKIA',
+  'UDALGURI',
+  'WEST KARBI ANGLONG',
 ];
 
 // Validation schema for schedule employee data row
@@ -255,6 +300,7 @@ const EditEmployeeForm: React.FC<EditEmployeeFormProps> = ({ showMenu }) => {
   const [employeeFormData, setEmployeeFormData] = useState<Employee>(
     defaultEmployeeFormData
   );
+  const [guardianType, setGuardianType] = useState<GuardianType>('F');
   const [isEmployeeFormSubmitted, setIsEmployeeFormSubmitted] = useState(false);
   const [savedEmployeeId, setSavedEmployeeId] = useState<number>(0);
   const [savedEmployeeName, setSavedEmployeeName] = useState<string>('');
@@ -550,8 +596,16 @@ const EditEmployeeForm: React.FC<EditEmployeeFormProps> = ({ showMenu }) => {
     try {
       setErrors({});
 
+      const normalizedEmployeeFormData = {
+        ...employeeFormData,
+        fatherName: buildGuardianName(
+          employeeFormData.fatherName || '',
+          guardianType
+        ),
+      };
+
       // Validate employee data
-      await employeeValidationSchema.validate(employeeFormData, {
+      await employeeValidationSchema.validate(normalizedEmployeeFormData, {
         abortEarly: false,
       });
 
@@ -562,7 +616,7 @@ const EditEmployeeForm: React.FC<EditEmployeeFormProps> = ({ showMenu }) => {
         // Add the Employee
         response = await axios.post(
           `${api.baseUrl}/employees`,
-          employeeFormData,
+          normalizedEmployeeFormData,
           {
             headers: {
               'Content-Type': 'application/json',
@@ -610,7 +664,7 @@ const EditEmployeeForm: React.FC<EditEmployeeFormProps> = ({ showMenu }) => {
           // Update the Employee info
           response = await axios.patch(
             `${api.baseUrl}/employees/${savedEmployeeId}`,
-            employeeFormData,
+            normalizedEmployeeFormData,
             {
               headers: {
                 'Content-Type': 'application/json',
@@ -692,12 +746,17 @@ const EditEmployeeForm: React.FC<EditEmployeeFormProps> = ({ showMenu }) => {
       if (response.data.success) {
         // Fetch Employee Schedule if already scheduled
         fetchEmployeeSchedule(Number(response.data.employee.ID));
+        const parsedGuardian = parseGuardianName(
+          response.data.employee.fatherName
+        );
         // Set Employee Data
         setEmployeeFormData({
           ...response.data.employee,
           phoneNum: Number(response.data.employee.phoneNum),
           contractDate: formatDateToYMD(response.data.employee.contractDate),
+          fatherName: parsedGuardian.name,
         });
+        setGuardianType(parsedGuardian.relation);
 
         // Handle district initialization
         const districtValue = response.data.employee.district;
@@ -741,7 +800,7 @@ const EditEmployeeForm: React.FC<EditEmployeeFormProps> = ({ showMenu }) => {
     const editEmpId = urlParams.get('id');
     // console.log('in use efff', editEmpId);
     // if (!accessToken || !editEmpId) {
-    //   navigate('/app/auth/login');
+    //   navigate('/paytrack/auth/login');
     // }
     fetchEmployeeData(Number(editEmpId));
     setSavedEmployeeId(Number(editEmpId));
@@ -1599,16 +1658,32 @@ const EditEmployeeForm: React.FC<EditEmployeeFormProps> = ({ showMenu }) => {
                   {/* Father's name */}
                   <div className="input-wrapper cursor-pointer">
                     <label className="input-label">
-                      Father&apos;s Name
+                      Father / Husband&apos;s Name
                       <span className=" input-error pl-1">*</span>
                     </label>
-                    <input
-                      type="text"
-                      name="fatherName"
-                      value={employeeFormData.fatherName || ''}
-                      onChange={handleEmployeeFormInputChange}
-                      className="input-field"
-                    />
+                    <div className="relative">
+                      <input
+                        type="text"
+                        name="fatherName"
+                        value={employeeFormData.fatherName || ''}
+                        onChange={handleEmployeeFormInputChange}
+                        className="input-field pr-12"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setGuardianType((prevType) =>
+                            prevType === 'F' ? 'H' : 'F'
+                          );
+                          setEmployeeInfoChanged(true);
+                        }}
+                        className="absolute right-1 top-1/2 -translate-y-1/2 h-8 min-w-8 px-2 rounded border border-inputBorder text-redText font-semibold"
+                        aria-label="Toggle father or husband"
+                        title="Toggle Father/Husband"
+                      >
+                        {guardianType}
+                      </button>
+                    </div>
                     {errors.fatherName && (
                       <p className="input-error">{errors.fatherName}</p>
                     )}
