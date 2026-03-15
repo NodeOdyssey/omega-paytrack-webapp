@@ -1,5 +1,5 @@
 // Libraries
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, Routes, Route } from 'react-router-dom';
 import axios, { AxiosError } from 'axios';
 import { Tooltip } from 'react-tooltip';

@@ -106,8 +106,10 @@ const AttendanceAndPayroll: React.FC = () => {
 
   /* Verify User Auth */
   const token = useVerifyUserAuth();
-  const { canEdit: canEditModule, canCreate: canCreateModule } = usePermissions();
-
+  const { canEdit: canEditModule, canCreate: canCreateModule } =
+    usePermissions();
+  console.log('what is canEditModule: ', canEditModule);
+  console.log('what is canCreateModule: ', canCreateModule);
   /* Loader */
   const [isLoading, setIsLoading] = useState(false);
 
@@ -133,7 +135,9 @@ const AttendanceAndPayroll: React.FC = () => {
         'paytrack.attendancePayroll.selectedDate',
         date.toISOString()
       );
-    } catch {}
+    } catch (error) {
+      handleAxiosError(error as AxiosError);
+    }
     setSearchStatusTerm('');
   };
   // const handlePostChange = (postId: number) => {

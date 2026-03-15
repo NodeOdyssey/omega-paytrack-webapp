@@ -461,13 +461,13 @@ const EmployeesTable2: React.FC<EmployeesTableProps> = ({
           0
         )
       : Number(selectedEmployeeData?.salaryAdvance ?? 0);
-  const currentYearAdvanceTotal =
-    currentYearAdvanceDetails.length > 0
-      ? currentYearAdvanceDetails.reduce(
-          (sum, detail) => sum + Number(detail.amount || 0),
-          0
-        )
-      : Number(selectedEmployeeData?.salaryAdvance ?? 0);
+  // const currentYearAdvanceTotal =
+  //   currentYearAdvanceDetails.length > 0
+  //     ? currentYearAdvanceDetails.reduce(
+  //         (sum, detail) => sum + Number(detail.amount || 0),
+  //         0
+  //       )
+  //     : Number(selectedEmployeeData?.salaryAdvance ?? 0);
 
   const handleRecordAdvance = async () => {
     if (!accessToken) return;
