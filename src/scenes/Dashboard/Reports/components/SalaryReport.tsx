@@ -334,12 +334,12 @@ const SalaryReport: React.FC<SalaryReportProps> = ({
     // Add Company Details
     doc.setFont('Mona_Sans', 'bold');
     doc.setFontSize(14);
-    doc.text('Purbanchal Security Consultants Pvt. Ltd.', 150, 20, {
+    doc.text('Omega Security Solutions', 150, 20, {
       align: 'center',
     }); // Centered
     doc.setFont('Mona_Sans', 'normal');
     doc.setFontSize(12);
-    doc.text('Silpukhuri, Guwahati-03', 148, 28, { align: 'center' });
+    doc.text('Uzan Bazar, Guwahati-01', 148, 28, { align: 'center' });
 
     // Add Payroll Information
     doc.setFontSize(12);
@@ -869,10 +869,10 @@ const SalaryReport: React.FC<SalaryReportProps> = ({
 
                         <div className="text-center">
                           <h2 className="reportPrimaryHeadings2 text-primaryText">
-                            Purbanchal Security Consultants Pvt. Ltd.
+                            Omega Security Solutions
                           </h2>
                           <h3 className="reportPrimaryHeadings2 text-primaryText">
-                            Silpukhuri, Guwahati-03
+                            Uzan Bazar, Guwahati-01
                           </h3>
                         </div>
                         {/* for the period */}

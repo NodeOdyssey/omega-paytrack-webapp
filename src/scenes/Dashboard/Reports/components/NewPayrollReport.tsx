@@ -351,12 +351,12 @@ const NewPayrollReport: React.FC<NewPayrollReportProps> = ({
   //   // Add Company Details
   //   doc.setFont('Mona_Sans', 'bold');
   //   doc.setFontSize(14);
-  //   doc.text('Purbanchal Security Consultants Pvt. Ltd.', 550, 35, {
+  //   doc.text('Omega Security Solutions', 550, 35, {
   //     align: 'center',
   //   }); // Centered
   //   doc.setFont('Mona_Sans', 'normal');
   //   doc.setFontSize(12);
-  //   doc.text('Silpukhuri, Guwahati-03', 550, 55, { align: 'center' });
+  //   doc.text('Uzan Bazar, Guwahati-01', 550, 55, { align: 'center' });
 
   //   // Add Payroll Information
   //   doc.setFontSize(12);
@@ -610,13 +610,13 @@ const NewPayrollReport: React.FC<NewPayrollReportProps> = ({
   //   // Header Section
   //   doc.setFont('Mona_Sans', 'bold');
   //   doc.setFontSize(14);
-  //   doc.text('Purbanchal Security Consultants Pvt. Ltd.', 550, 35, {
+  //   doc.text('Omega Security Solutions', 550, 35, {
   //     align: 'center',
   //   });
 
   //   doc.setFont('Mona_Sans', 'normal');
   //   doc.setFontSize(12);
-  //   doc.text('Silpukhuri, Guwahati-03', 550, 55, { align: 'center' });
+  //   doc.text('Uzan Bazar, Guwahati-01', 550, 55, { align: 'center' });
 
   //   doc.setFontSize(12);
   //   doc.text('Pay Roll of Staff Deployed at', 40, 80);
@@ -823,12 +823,12 @@ const NewPayrollReport: React.FC<NewPayrollReportProps> = ({
     // Company Header
     doc.setFont('Mona_Sans', 'bold');
     doc.setFontSize(12);
-    doc.text('Purbanchal Security Consultants Pvt. Ltd.', 420, 30, {
+    doc.text('Omega Security Solutions', 420, 30, {
       align: 'center',
     });
     doc.setFont('Mona_Sans', 'normal');
     doc.setFontSize(10);
-    doc.text('Silpukhuri, Guwahati-03', 420, 50, { align: 'center' });
+    doc.text('Uzan Bazar, Guwahati-01', 420, 50, { align: 'center' });
 
     // Payroll Info
     doc.setFontSize(10);
@@ -1482,10 +1482,10 @@ const NewPayrollReport: React.FC<NewPayrollReportProps> = ({
                         {/* Company details */}
                         <div className="text-center">
                           <h2 className="reportPrimaryHeadings2 text-primaryText">
-                            Purbanchal Security Consultants Pvt. Ltd.
+                            Omega Security Solutions
                           </h2>
                           <h3 className="reportPrimaryHeadings2 text-primaryText">
-                            Silpukhuri, Guwahati-03
+                            Uzan Bazar, Guwahati-01
                           </h3>
                         </div>
                         {/* Post Name and Date */}

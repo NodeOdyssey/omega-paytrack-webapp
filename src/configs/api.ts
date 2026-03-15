@@ -1,6 +1,6 @@
 export const api = {
-  baseUrl: 'http://localhost:4009/paytrack/api/v1',
-  // baseUrl: 'https://omegapaytrack.com/paytrack/api/v1',
+  // baseUrl: 'http://localhost:4009/paytrack/api/v1',
+  baseUrl: 'https://omegapaytrack.com/paytrack/api/v1',
   login: '/auth/login',
   logout: '/auth/logout',
   sendPassVerificationEmail: '/auth/send-reset-password-email',

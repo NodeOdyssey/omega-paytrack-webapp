@@ -400,10 +400,11 @@ const CustomReportTable: React.FC = () => {
                     <div className="flex flex-col items-center gap-4 py-6 px-4 w-full">
                       <div className="flex flex-col gap-1 items-center justify-center">
                         <h2 className="primaryHeadings font-bold text-primaryText">
-                          Purbanchal Security Consultants Pvt. Ltd.
+                          Omega Security Solutions
                         </h2>
                         <h3 className="primaryHeadings font-bold text-primaryText">
-                          Silpukhuri, Guwahati-03
+                          55, Fatick Chandra Rd, Latasil, Uzan Bazar, 
+                          Guwahati, Assam 781001, India
                         </h3>
                       </div>
                       <div className="flex justify-between items-center w-full">

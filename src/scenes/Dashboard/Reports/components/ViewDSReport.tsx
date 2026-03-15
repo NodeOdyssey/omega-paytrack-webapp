@@ -478,10 +478,10 @@ const ViewDSReport: React.FC<ViewDSReportProps> = ({
                         {/* Company details */}
                         <div className="text-center">
                           <h2 className="reportPrimaryHeadings2 text-primaryText">
-                            Purbanchal Security Consultants Pvt. Ltd.
+                            Omega Security Solutions
                           </h2>
                           <h3 className="reportPrimaryHeadings2 text-primaryText">
-                            Silpukhuri, Guwahati-03
+                            Uzan Bazar, Guwahati-01
                           </h3>
                         </div>
                         {/* Post Name and Date */}

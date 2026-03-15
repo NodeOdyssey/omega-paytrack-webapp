@@ -333,12 +333,12 @@ const ESIReport: React.FC<ESIReportProps> = ({
     // Add Company Details
     doc.setFont('Mona_Sans', 'bold');
     doc.setFontSize(14);
-    doc.text('Purbanchal Security Consultants Pvt. Ltd.', 150, 20, {
+    doc.text('Omega Security Solutions', 150, 20, {
       align: 'center',
     }); // Centered
     doc.setFont('Mona_Sans', 'normal');
     doc.setFontSize(10);
-    doc.text('Silpukhuri, Guwahati-03', 148, 28, { align: 'center' });
+    doc.text('Uzan Bazar, Guwahati-01', 148, 28, { align: 'center' });
 
     // Add Payroll Information
     doc.setFontSize(10);
@@ -706,13 +706,13 @@ const ESIReport: React.FC<ESIReportProps> = ({
     // Header
     doc.setFont('Mona_Sans', 'bold');
     doc.setFontSize(14);
-    doc.text('Purbanchal Security Consultants Pvt. Ltd.', 150, 20, {
+    doc.text('Omega Security Solutions', 150, 20, {
       align: 'center',
     });
 
     doc.setFont('Mona_Sans', 'bold');
     doc.setFontSize(10);
-    doc.text('Silpukhuri, Guwahati-03', 148, 28, { align: 'center' });
+    doc.text('Uzan Bazar, Guwahati-01', 148, 28, { align: 'center' });
 
     // doc.setFontSize(10);
     // doc.text('Pay Roll of Staff Deployed at', 16, 50);
@@ -1044,10 +1044,11 @@ const ESIReport: React.FC<ESIReportProps> = ({
 
                         <div className="text-center">
                           <h2 className="reportPrimaryHeadings2 text-primaryText">
-                            Purbanchal Security Consultants Pvt. Ltd.
+                            Omega Security Solutions
                           </h2>
                           <h3 className="reportPrimaryHeadings2 text-primaryText">
-                            Silpukhuri, Guwahati-03
+                            55, Fatick Chandra Rd, Latasil, Uzan Bazar, 
+                            Guwahati, Assam 781001, India
                           </h3>
                         </div>
                         {/* for the period */}

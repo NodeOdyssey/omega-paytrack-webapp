@@ -255,7 +255,7 @@ const Dashboard = (): React.ReactElement => {
           className={`z-20 h-10 2xl:h-14 2xl fixed top-0 ${showMenu ? 'left-16 2xl:left-20' : 'left-36 md:left-44 lg:left-52 xl:left-56'} right-0 px-4 2xl:px-8 py-4 flex items-center font-semibold justify-between shadow-md bg-white`}
         >
           <h2 className="text-left font-semibold text-sm 2xl:text-base">
-            Purbanchal Security Consultants Pvt. Ltd.
+            Omega Security Solutions
           </h2>
           <div className="flex items-center gap-4">
             {/* admin settings */}
@@ -292,8 +292,8 @@ const Dashboard = (): React.ReactElement => {
             </div>
             {/* logout button */}
             <div
-              // onMouseEnter={() => setIsLogoutHovered(true)} // Set hover state to true
-              // onMouseLeave={() => setIsLogoutHovered(false)} // Set hover state to false
+            // onMouseEnter={() => setIsLogoutHovered(true)} // Set hover state to true
+            // onMouseLeave={() => setIsLogoutHovered(false)} // Set hover state to false
             >
               <button
                 onClick={openLogoutModal}
@@ -346,7 +346,11 @@ const Dashboard = (): React.ReactElement => {
             <Route
               path="organisation/rank-details/add-rank"
               element={
-                <PermissionGate module="rank" action="create" fallback={<Error404 />}>
+                <PermissionGate
+                  module="rank"
+                  action="create"
+                  fallback={<Error404 />}
+                >
                   <AddRankForm />
                 </PermissionGate>
               }
@@ -354,7 +358,11 @@ const Dashboard = (): React.ReactElement => {
             <Route
               path="organisation/rank-details/edit-rank"
               element={
-                <PermissionGate module="rank" action="edit" fallback={<Error404 />}>
+                <PermissionGate
+                  module="rank"
+                  action="edit"
+                  fallback={<Error404 />}
+                >
                   <EditRankForm />
                 </PermissionGate>
               }
@@ -372,7 +380,11 @@ const Dashboard = (): React.ReactElement => {
             <Route
               path="organisation/employee-details/add-employee"
               element={
-                <PermissionGate module="employee" action="create" fallback={<Error404 />}>
+                <PermissionGate
+                  module="employee"
+                  action="create"
+                  fallback={<Error404 />}
+                >
                   <AddEmployeeForm showMenu={showMenu} />
                 </PermissionGate>
               }
@@ -380,7 +392,11 @@ const Dashboard = (): React.ReactElement => {
             <Route
               path="organisation/employee-details/edit-employee"
               element={
-                <PermissionGate module="employee" action="edit" fallback={<Error404 />}>
+                <PermissionGate
+                  module="employee"
+                  action="edit"
+                  fallback={<Error404 />}
+                >
                   <EditEmployeeForm showMenu={showMenu} />
                 </PermissionGate>
               }
@@ -396,7 +412,11 @@ const Dashboard = (): React.ReactElement => {
             <Route
               path="posts/add-post"
               element={
-                <PermissionGate module="post" action="create" fallback={<Error404 />}>
+                <PermissionGate
+                  module="post"
+                  action="create"
+                  fallback={<Error404 />}
+                >
                   <AddPostForm />
                 </PermissionGate>
               }
@@ -404,7 +424,11 @@ const Dashboard = (): React.ReactElement => {
             <Route
               path="posts/edit-post"
               element={
-                <PermissionGate module="post" action="edit" fallback={<Error404 />}>
+                <PermissionGate
+                  module="post"
+                  action="edit"
+                  fallback={<Error404 />}
+                >
                   <EditPostForm />
                 </PermissionGate>
               }

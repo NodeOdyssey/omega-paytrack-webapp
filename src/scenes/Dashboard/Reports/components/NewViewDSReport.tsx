@@ -469,10 +469,10 @@ const NewViewDSReport: React.FC<NewViewDSReportProps> = ({
                         <div className="w-full">
                           <div className="text-center">
                             <h2 className="reportPrimaryHeadings2 text-primaryText">
-                              Purbanchal Security Consultants Pvt. Ltd.
+                              Omega Security Solutions
                             </h2>
                             <h3 className="reportPrimaryHeadings2 text-primaryText">
-                              Silpukhuri, Guwahati-03
+                              Uzan Bazar, Guwahati-01
                             </h3>
                           </div>
                           <div className="flex justify-between items-center mt-4">

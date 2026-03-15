@@ -528,7 +528,7 @@ src/presentation/
 ```typescript
 // src/configs/api.ts
 export const api = {
-  baseUrl: 'https://purbanchalsecurity.com/paytrack/api/v1',
+  baseUrl: 'https://omegapaytrack.com/paytrack/api/v1',
   login: '/auth/login',
   employees: '/employees',
 };

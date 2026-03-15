@@ -324,12 +324,12 @@ const WithoutAllowanceReport: React.FC<WithoutAllowanceReportProps> = ({
   //   // Add Company Details
   //   doc.setFont('Mona_Sans', 'bold');
   //   doc.setFontSize(14);
-  //   doc.text('Purbanchal Security Consultants Pvt. Ltd.', 150, 8, {
+  //   doc.text('Omega Security Solutions', 150, 8, {
   //     align: 'center',
   //   }); // Centered
   //   doc.setFont('Mona_Sans', 'normal');
   //   doc.setFontSize(12);
-  //   doc.text('Silpukhuri, Guwahati-03', 148, 16, { align: 'center' });
+  //   doc.text('Uzan Bazar, Guwahati-01', 148, 16, { align: 'center' });
 
   //   // Add Payroll Information
   //   doc.setFontSize(12);
@@ -531,13 +531,13 @@ const WithoutAllowanceReport: React.FC<WithoutAllowanceReportProps> = ({
   //   // Add Company Details (close to top)
   //   doc.setFont('Mona_Sans', 'bold');
   //   doc.setFontSize(14);
-  //   doc.text('Purbanchal Security Consultants Pvt. Ltd.', 150, 10, {
+  //   doc.text('Omega Security Solutions', 150, 10, {
   //     align: 'center',
   //   });
 
   //   doc.setFont('Mona_Sans', 'normal');
   //   doc.setFontSize(11);
-  //   doc.text('Silpukhuri, Guwahati-03', 148, 18, { align: 'center' });
+  //   doc.text('Uzan Bazar, Guwahati-01', 148, 18, { align: 'center' });
 
   //   // Payroll Info (less vertical space)
   //   doc.setFontSize(11);
@@ -707,13 +707,13 @@ const WithoutAllowanceReport: React.FC<WithoutAllowanceReportProps> = ({
     // Header Section
     doc.setFont('Mona_Sans', 'bold');
     doc.setFontSize(14);
-    doc.text('Purbanchal Security Consultants Pvt. Ltd.', 150, 10, {
+    doc.text('Omega Security Solutions', 150, 10, {
       align: 'center',
     });
 
     doc.setFont('Mona_Sans', 'normal');
     doc.setFontSize(11);
-    doc.text('Silpukhuri, Guwahati-03', 150, 16, { align: 'center' });
+    doc.text('Uzan Bazar, Guwahati-01', 150, 16, { align: 'center' });
 
     // Payroll Info Row
     doc.setFontSize(11);
@@ -1037,11 +1037,11 @@ const WithoutAllowanceReport: React.FC<WithoutAllowanceReportProps> = ({
   //   const doc = new jsPDF('landscape');
 
   //   doc.setFontSize(14);
-  //   doc.text('Purbanchal Security Consultants Pvt. Ltd.', 150, 10, {
+  //   doc.text('Omega Security Solutions', 150, 10, {
   //     align: 'center',
   //   });
   //   doc.setFontSize(11);
-  //   doc.text('Silpukhuri, Guwahati-03', 150, 16, { align: 'center' });
+  //   doc.text('Uzan Bazar, Guwahati-01', 150, 16, { align: 'center' });
 
   //   doc.setFontSize(11);
   //   doc.text('Pay Roll of Staff Deployed at', 5, 24);
@@ -1194,13 +1194,13 @@ const WithoutAllowanceReport: React.FC<WithoutAllowanceReportProps> = ({
     // Header Section
     doc.setFont('Mona_Sans', 'bold');
     doc.setFontSize(14);
-    doc.text('Purbanchal Security Consultants Pvt. Ltd.', 150, 10, {
+    doc.text('Omega Security Solutions', 150, 10, {
       align: 'center',
     });
 
     doc.setFont('Mona_Sans', 'normal');
     doc.setFontSize(11);
-    doc.text('Silpukhuri, Guwahati-03', 150, 16, { align: 'center' });
+    doc.text('Uzan Bazar, Guwahati-01', 150, 16, { align: 'center' });
 
     doc.setFontSize(11);
     doc.text('Pay Roll of Staff Deployed at', 5, 24);
@@ -1538,10 +1538,10 @@ const WithoutAllowanceReport: React.FC<WithoutAllowanceReportProps> = ({
 
                         <div className="text-center">
                           <h2 className="reportPrimaryHeadings2 text-primaryText">
-                            Purbanchal Security Consultants Pvt. Ltd.
+                            Omega Security Solutions
                           </h2>
                           <h3 className="reportPrimaryHeadings2 text-primaryText">
-                            Silpukhuri, Guwahati-03
+                            Uzan Bazar, Guwahati-01
                           </h3>
                         </div>
                         {/* Post Name and Date */}

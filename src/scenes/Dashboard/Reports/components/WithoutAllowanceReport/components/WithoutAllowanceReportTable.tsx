@@ -133,8 +133,8 @@ const WithoutAllowanceReportTable: React.FC<
             handleExportWithoutAllowanceExcel(
               tableData,
               'WithoutAllowance_Report',
-              'Purbanchal Security Consultants Pvt. Ltd.',
-              'Silpukhuri, Guwahati-03',
+              'Omega Security Solutions',
+              'Uzan Bazar, Guwahati-01',
               periodStartDate,
               periodEndDate,
               totalNetPay

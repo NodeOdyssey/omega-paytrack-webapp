@@ -354,13 +354,13 @@ export const handleExportDsReportPDF = async (
   // Header
   doc.setFont('Mona_Sans', 'bold');
   doc.setFontSize(14);
-  doc.text('Purbanchal Security Consultants Pvt. Ltd.', 150, 10, {
+  doc.text('Omega Security Solutions', 150, 10, {
     align: 'center',
   });
 
   doc.setFont('Mona_Sans', 'bold');
   doc.setFontSize(11);
-  doc.text('Silpukhuri, Guwahati-03', 150, 16, { align: 'center' });
+  doc.text('Uzan Bazar, Guwahati-01', 150, 16, { align: 'center' });
 
   doc.setFontSize(11);
   doc.text('Pay Roll of Staff Deployed at', 5, 24);
@@ -569,13 +569,13 @@ export const handleExportWithoutAllowanceReportPDF = async (
   // Header
   doc.setFont('Mona_Sans', 'bold');
   doc.setFontSize(14);
-  doc.text('Purbanchal Security Consultants Pvt. Ltd.', 150, 10, {
+  doc.text('Omega Security Solutions', 150, 10, {
     align: 'center',
   });
 
   doc.setFont('Mona_Sans', 'bold');
   doc.setFontSize(11);
-  doc.text('Silpukhuri, Guwahati-03', 150, 16, { align: 'center' });
+  doc.text('Uzan Bazar, Guwahati-01', 150, 16, { align: 'center' });
 
   doc.setFontSize(11);
   doc.text('Pay Roll of Staff Deployed at', 5, 24);
@@ -761,12 +761,12 @@ export const handleExportNewPayrollPDF = async (
   // Header
   doc.setFont('Mona_Sans', 'bold');
   doc.setFontSize(12);
-  doc.text('Purbanchal Security Consultants Pvt. Ltd.', 420, 30, {
+  doc.text('Omega Security Solutions', 420, 30, {
     align: 'center',
   });
   doc.setFont('Mona_Sans', 'bold');
   doc.setFontSize(10);
-  doc.text('Silpukhuri, Guwahati-03', 420, 50, { align: 'center' });
+  doc.text('Uzan Bazar, Guwahati-01', 420, 50, { align: 'center' });
 
   doc.setFontSize(10);
   doc.text('Pay Roll of Staff Deployed at', 10, 75);
@@ -992,12 +992,12 @@ export const handleExportDslPDF = async (
   // Header
   doc.setFont('Mona_Sans', 'bold');
   doc.setFontSize(12);
-  doc.text('Purbanchal Security Consultants Pvt. Ltd.', 420, 30, {
+  doc.text('Omega Security Solutions', 420, 30, {
     align: 'center',
   });
   doc.setFont('Mona_Sans', 'bold');
   doc.setFontSize(10);
-  doc.text('Silpukhuri, Guwahati-03', 420, 50, { align: 'center' });
+  doc.text('Uzan Bazar, Guwahati-01', 420, 50, { align: 'center' });
 
   doc.setFontSize(10);
   doc.text('Pay Roll of Staff Deployed at', 10, 75);
@@ -1223,12 +1223,12 @@ export const handleExportLnTPDF = async (
   // Header
   doc.setFont('Mona_Sans', 'bold');
   doc.setFontSize(12);
-  doc.text('Purbanchal Security Consultants Pvt. Ltd.', 420, 30, {
+  doc.text('Omega Security Solutions', 420, 30, {
     align: 'center',
   });
   doc.setFont('Mona_Sans', 'bold');
   doc.setFontSize(10);
-  doc.text('Silpukhuri, Guwahati-03', 420, 50, { align: 'center' });
+  doc.text('Uzan Bazar, Guwahati-01', 420, 50, { align: 'center' });
 
   doc.setFontSize(10);
   doc.text('Pay Roll of Staff Deployed at', 10, 75);
@@ -1452,13 +1452,13 @@ export const handleExportOtherReportPDF = async (
   // Header
   doc.setFont('Mona_Sans', 'bold');
   doc.setFontSize(14);
-  doc.text('Purbanchal Security Consultants Pvt. Ltd.', 150, 10, {
+  doc.text('Omega Security Solutions', 150, 10, {
     align: 'center',
   });
 
   doc.setFont('Mona_Sans', 'bold');
   doc.setFontSize(11);
-  doc.text('Silpukhuri, Guwahati-03', 150, 16, { align: 'center' });
+  doc.text('Uzan Bazar, Guwahati-01', 150, 16, { align: 'center' });
 
   doc.setFontSize(11);
   doc.text('Pay Roll of Staff Deployed at', 5, 24);
@@ -1701,13 +1701,13 @@ export const handleExportESIReportPDF = async (
     // Header
     doc.setFont('Mona_Sans', 'bold');
     doc.setFontSize(14);
-    doc.text('Purbanchal Security Consultants Pvt. Ltd.', 100, 10, {
+    doc.text('Omega Security Solutions', 100, 10, {
       align: 'center',
     });
 
     doc.setFont('Mona_Sans', 'bold');
     doc.setFontSize(11);
-    doc.text('Silpukhuri, Guwahati-03', 100, 16, { align: 'center' });
+    doc.text('Uzan Bazar, Guwahati-01', 100, 16, { align: 'center' });
 
     if (periodStartDate && periodEndDate) {
       doc.text(
@@ -1828,13 +1828,13 @@ export const handleExportESIReportPDF = async (
   // // Header
   // doc.setFont('Mona_Sans', 'bold');
   // doc.setFontSize(14);
-  // doc.text('Purbanchal Security Consultants Pvt. Ltd.', 150, 10, {
+  // doc.text('Omega Security Solutions', 150, 10, {
   //   align: 'center',
   // });
 
   // doc.setFont('Mona_Sans', 'normal');
   // doc.setFontSize(11);
-  // doc.text('Silpukhuri, Guwahati-03', 150, 16, { align: 'center' });
+  // doc.text('Uzan Bazar, Guwahati-01', 150, 16, { align: 'center' });
 
   // if (selectedDate) {
   //   const { firstDay, lastDay } = getFirstAndLastDay(selectedDate);
@@ -2021,13 +2021,13 @@ export const handleExportEPFReportPDF = async (
     // Header
     doc.setFont('Mona_Sans', 'bold');
     doc.setFontSize(14);
-    doc.text('Purbanchal Security Consultants Pvt. Ltd.', 100, 10, {
+    doc.text('Omega Security Solutions', 100, 10, {
       align: 'center',
     });
 
     doc.setFont('Mona_Sans', 'bold');
     doc.setFontSize(11);
-    doc.text('Silpukhuri, Guwahati-03', 100, 16, { align: 'center' });
+    doc.text('Uzan Bazar, Guwahati-01', 100, 16, { align: 'center' });
 
     if (periodStartDate && periodEndDate) {
       doc.text(
@@ -2148,13 +2148,13 @@ export const handleExportEPFReportPDF = async (
   // // Header
   // doc.setFont('Mona_Sans', 'bold');
   // doc.setFontSize(14);
-  // doc.text('Purbanchal Security Consultants Pvt. Ltd.', 150, 10, {
+  // doc.text('Omega Security Solutions', 150, 10, {
   //   align: 'center',
   // });
 
   // doc.setFont('Mona_Sans', 'normal');
   // doc.setFontSize(11);
-  // doc.text('Silpukhuri, Guwahati-03', 150, 16, { align: 'center' });
+  // doc.text('Uzan Bazar, Guwahati-01', 150, 16, { align: 'center' });
 
   // if (selectedDate) {
   //   const { firstDay, lastDay } = getFirstAndLastDay(selectedDate);
@@ -2341,13 +2341,13 @@ export const handleExportPTaxReportPDF = async (
     // Header
     doc.setFont('Mona_Sans', 'bold');
     doc.setFontSize(14);
-    doc.text('Purbanchal Security Consultants Pvt. Ltd.', 100, 10, {
+    doc.text('Omega Security Solutions', 100, 10, {
       align: 'center',
     });
 
     doc.setFont('Mona_Sans', 'bold');
     doc.setFontSize(11);
-    doc.text('Silpukhuri, Guwahati-03', 100, 16, { align: 'center' });
+    doc.text('Uzan Bazar, Guwahati-01', 100, 16, { align: 'center' });
 
     if (periodStartDate && periodEndDate) {
       doc.text(
@@ -2531,13 +2531,13 @@ export const handleExportSalaryReportPDF = async (
     // Header
     doc.setFont('Mona_Sans', 'bold');
     doc.setFontSize(14);
-    doc.text('Purbanchal Security Consultants Pvt. Ltd.', 150, 10, {
+    doc.text('Omega Security Solutions', 150, 10, {
       align: 'center',
     });
 
     doc.setFont('Mona_Sans', 'bold');
     doc.setFontSize(11);
-    doc.text('Silpukhuri, Guwahati-03', 150, 16, { align: 'center' });
+    doc.text('Uzan Bazar, Guwahati-01', 150, 16, { align: 'center' });
 
     if (periodStartDate && periodEndDate) {
       doc.text(
