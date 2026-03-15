@@ -23,6 +23,7 @@ import {
 } from '../../../../assets/icons';
 import { useNavigate } from 'react-router';
 import useClickOutside from '../../../../hooks/useClickOutside';
+import { usePermissions } from '../../../../hooks/usePermissions';
 export interface AttendanceAndPayrollProps {
   date: {
     month: string;
@@ -73,17 +74,7 @@ const AttendanceAndPayrollStatus: React.FC<AttendanceAndPayrollProps> = ({
     console.log('Status Data: ', statusData);
   }, [statusData]);
 
-  const [isDevAdmin, setIsDevAdmin] = React.useState(false);
-
-  useEffect(() => {
-    const userRole = localStorage.getItem('userRole');
-    console.log('User Role: ', userRole);
-    if (userRole === 'DevAdmin') {
-      setIsDevAdmin(true);
-    } else {
-      setIsDevAdmin(false);
-    }
-  }, []);
+  const { isDevAdmin, canCreate: canCreateModule, canDelete: canDeleteModule } = usePermissions();
 
   const [editingReportTypePostId, setEditingReportTypePostId] = React.useState<
     number | null
@@ -217,7 +208,7 @@ const AttendanceAndPayrollStatus: React.FC<AttendanceAndPayrollProps> = ({
                     Action
                   </th>
 
-                  {isDevAdmin && (
+                      {(canDeleteModule('attendance') || canDeleteModule('payroll')) && (
                     <th
                       className="px-4 py-3 border border-tableBorder w-[10%] text-responsive-label   "
                       rowSpan={2}
@@ -313,7 +304,8 @@ const AttendanceAndPayrollStatus: React.FC<AttendanceAndPayrollProps> = ({
                               </button>
                             )}
                           {item.attendanceStatus === 'Completed' &&
-                            item.payrollStatus === 'Pending' && (
+                            item.payrollStatus === 'Pending' &&
+                            canCreateModule('payroll') && (
                               <div className="h-7 2xl:h-8">
                                 <PrimaryButton
                                   height={'full'}
@@ -593,11 +585,11 @@ const AttendanceAndPayrollStatus: React.FC<AttendanceAndPayrollProps> = ({
                       </td>
 
                       {/* Dev Action */}
-                      {isDevAdmin && (
+                      {(canDeleteModule('attendance') || canDeleteModule('payroll')) && (
                         <td className="table-td-with-input">
                           <div className="flex items-center justify-center">
-                            {/* Delete  */}
-                            {item.attendanceStatus === 'Completed' &&
+                            {canDeleteModule('attendance') &&
+                              item.attendanceStatus === 'Completed' &&
                               item.payrollStatus !== 'Completed' && (
                                 <button
                                   onClick={() =>
@@ -612,7 +604,8 @@ const AttendanceAndPayrollStatus: React.FC<AttendanceAndPayrollProps> = ({
                                   Delete&nbsp;Attendance
                                 </button>
                               )}
-                            {item.payrollStatus === 'Completed' &&
+                            {canDeleteModule('payroll') &&
+                              item.payrollStatus === 'Completed' &&
                               item.attendanceStatus === 'Completed' && (
                                 <button
                                   onClick={() =>

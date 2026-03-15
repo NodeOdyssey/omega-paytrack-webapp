@@ -23,6 +23,7 @@ import useHandleYupError from '../../../../hooks/useHandleYupError';
 import useHandleAxiosError from '../../../../hooks/useHandleAxiosError';
 import useTableSearch from '../../../../hooks/useTableSearch';
 import useClickOutside from '../../../../hooks/useClickOutside';
+import { usePermissions } from '../../../../hooks/usePermissions';
 
 // helpers
 import { exportEmployeeDetailsPdf } from '../../../../helpers/exportToPdf';
@@ -48,6 +49,7 @@ const EmployeeDetails: React.FC<EmployeeDetailsProps> = ({
   useScrollToTop();
   // verify user Auth
   const accessToken = useVerifyUserAuth();
+  const { canCreate } = usePermissions();
 
   /* Loader */
   const [isLoading, setIsLoading] = useState(false);
@@ -126,13 +128,15 @@ const EmployeeDetails: React.FC<EmployeeDetailsProps> = ({
                 handleSearchInputChange={handleSearchInputChange}
               />
               <div className="relative flex items-center gap-2 2xl:gap-4">
-                <PrimaryButton
-                  type="submit"
-                  icon={Plus_White}
-                  onClick={onAddEmployeeClick}
-                >
-                  Add Employee
-                </PrimaryButton>
+                {canCreate('employee') && (
+                  <PrimaryButton
+                    type="submit"
+                    icon={Plus_White}
+                    onClick={onAddEmployeeClick}
+                  >
+                    Add Employee
+                  </PrimaryButton>
+                )}
 
                 {/* Table Options */}
                 <button

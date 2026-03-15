@@ -39,6 +39,7 @@ import {
 import PostTable2 from './components/PostTable2';
 import SearchCompo from '../../../../common/SearchCompo';
 import useAuthStore from '../../../../store/auth';
+import { usePermissions } from '../../../../hooks/usePermissions';
 
 /* Prop Types */
 type PostDetailsProps = {
@@ -53,6 +54,7 @@ const PostDetails: React.FC<PostDetailsProps> = ({ onAddPostClick }) => {
   /* Verify User Auth */
   // const accessToken = useVerifyUserAuth();
   const { accessToken } = useAuthStore();
+  const { canCreate } = usePermissions();
 
   /* Loader */
   const [isLoading, setIsLoading] = useState(false);
@@ -131,13 +133,15 @@ const PostDetails: React.FC<PostDetailsProps> = ({ onAddPostClick }) => {
                 handleSearchInputChange={handleSearchInputChange}
               />
               <div className="relative flex items-center gap-2 2xl:gap-4">
-                <PrimaryButton
-                  type="submit"
-                  icon={Plus_White}
-                  onClick={onAddPostClick}
-                >
-                  Add Post
-                </PrimaryButton>
+                {canCreate('post') && (
+                  <PrimaryButton
+                    type="submit"
+                    icon={Plus_White}
+                    onClick={onAddPostClick}
+                  >
+                    Add Post
+                  </PrimaryButton>
+                )}
 
                 {/* Table Options Kebab */}
                 <button

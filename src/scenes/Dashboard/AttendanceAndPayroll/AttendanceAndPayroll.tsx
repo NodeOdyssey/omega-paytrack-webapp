@@ -54,6 +54,7 @@ import Pagination from '../../../common/Pagination/Pagination';
 import SavePayrollButton from '../../../common/Button/SavePayrollButton';
 import PrimaryButton from '../../../common/Button/PrimaryButton';
 import useClickOutside from '../../../hooks/useClickOutside';
+import { usePermissions } from '../../../hooks/usePermissions';
 import { CSVLink } from 'react-csv';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
@@ -105,6 +106,7 @@ const AttendanceAndPayroll: React.FC = () => {
 
   /* Verify User Auth */
   const token = useVerifyUserAuth();
+  const { canEdit: canEditModule, canCreate: canCreateModule } = usePermissions();
 
   /* Loader */
   const [isLoading, setIsLoading] = useState(false);
@@ -1150,7 +1152,8 @@ const AttendanceAndPayroll: React.FC = () => {
                 </button>
 
                 <div className="w-[30%] flex justify-end">
-                  {existingAttendanceData &&
+                  {canEditModule('attendance') &&
+                    existingAttendanceData &&
                     existingAttendanceData.length > 0 && (
                       <div className={`flex flex-col ml-2 gap-2`}>
                         <div className="flex flex-col gap-2 cursor-pointer">
@@ -1303,12 +1306,14 @@ const AttendanceAndPayroll: React.FC = () => {
                 <div className="flex items-center gap-4 relative">
                   {!isEditingPayroll ? (
                     <>
-                      <SavePayrollButton
-                        onClick={handleEditPayroll}
-                        icon={Edit_Icon_Blue}
-                      >
-                        Edit
-                      </SavePayrollButton>
+                      {canEditModule('payroll') && (
+                        <SavePayrollButton
+                          onClick={handleEditPayroll}
+                          icon={Edit_Icon_Blue}
+                        >
+                          Edit
+                        </SavePayrollButton>
+                      )}
 
                       {existingPayrollData.length > 0 &&
                         'netPay' in existingPayrollData[0] && (

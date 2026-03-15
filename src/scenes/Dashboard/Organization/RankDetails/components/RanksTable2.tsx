@@ -14,6 +14,7 @@ import useClickOutside from '../../../../../hooks/useClickOutside';
 import useScrollToTop from '../../../../../hooks/useScrollToTop';
 import useHandleYupError from '../../../../../hooks/useHandleYupError';
 import useHandleAxiosError from '../../../../../hooks/useHandleAxiosError';
+import { usePermissions } from '../../../../../hooks/usePermissions';
 
 /* Types */
 import { Rank } from '../../../../../types/rank';
@@ -51,6 +52,7 @@ const RanksTable2: React.FC<RanksTableProps> = ({
 
   /* Navigation */
   const navigate = useNavigate();
+  const { canEdit, canDelete } = usePermissions();
 
   /* Table Horizontal Scroll */
   // const tableRef = useHorizontalScroll();
@@ -290,31 +292,35 @@ const RanksTable2: React.FC<RanksTableProps> = ({
               left: `${menuPosition.left}px`,
             }}
           >
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                handleEdit(currentRankId);
-              }}
-              className="action-menu-button"
-            >
-              <img
-                src={EditPencil_Icon}
-                alt="EditPencil_Icon"
-                className="w-4 h-4"
-              />
-              <p className="text-responsive-table">Edit</p>
-            </button>
-            <button
-              onClick={(event) => {
-                event.stopPropagation();
-                setShowDeleteModal(true);
-                setActionModalIndex(null);
-              }}
-              className="action-menu-button"
-            >
-              <img src={Delete_Icon} alt="Delete_Icon" className="w-4 h-4" />
-              <p className="text-responsive-table">Delete</p>
-            </button>
+            {canEdit('rank') && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleEdit(currentRankId);
+                }}
+                className="action-menu-button"
+              >
+                <img
+                  src={EditPencil_Icon}
+                  alt="EditPencil_Icon"
+                  className="w-4 h-4"
+                />
+                <p className="text-responsive-table">Edit</p>
+              </button>
+            )}
+            {canDelete('rank') && (
+              <button
+                onClick={(event) => {
+                  event.stopPropagation();
+                  setShowDeleteModal(true);
+                  setActionModalIndex(null);
+                }}
+                className="action-menu-button"
+              >
+                <img src={Delete_Icon} alt="Delete_Icon" className="w-4 h-4" />
+                <p className="text-responsive-table">Delete</p>
+              </button>
+            )}
           </div>
         )}
         {showDeleteModal && (

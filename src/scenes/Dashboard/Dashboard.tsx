@@ -38,6 +38,7 @@ import EditEmployeeForm from './Organization/EmployeeDetails/components/EditEmpl
 import ConfirmationModal from '../../common/Modal/ConfirmationModal';
 import AdminSettingsModal from '../../common/Modal/AdminSettingsModal';
 import Loader from '../../common/Loader/Loader';
+import PermissionGate from '../../common/PermissionGate';
 import Home from './Home/Home';
 
 // Error Pages
@@ -54,6 +55,7 @@ import { useAppStore } from '../../store/app';
 import useHandleAxiosError from '../../hooks/useHandleAxiosError';
 import useVerifyUserAuth from '../../hooks/useVerifyUserAuth';
 import useHandleYupError from '../../hooks/useHandleYupError';
+import { usePermissions } from '../../hooks/usePermissions';
 import PayslipReport from './Reports/components/PaySlipReport/PaySlipReport';
 
 // Main Component
@@ -183,17 +185,7 @@ const Dashboard = (): React.ReactElement => {
   const { setErrors } = useHandleYupError();
   const { handleAxiosError } = useHandleAxiosError(setErrors);
 
-  const [isDevAdmin, setIsDevAdmin] = React.useState(false);
-
-  useEffect(() => {
-    const userRole = localStorage.getItem('userRole');
-    // console.log('User Role: ', userRole);
-    if (userRole === 'DevAdmin') {
-      setIsDevAdmin(true);
-    } else {
-      setIsDevAdmin(false);
-    }
-  }, []);
+  const { isDevAdmin } = usePermissions();
 
   // Admin panel settings
   const [adminPanelSettingsModal, setAdminPanelSettingsModal] = useState(false);
@@ -353,11 +345,19 @@ const Dashboard = (): React.ReactElement => {
             />
             <Route
               path="organisation/rank-details/add-rank"
-              element={<AddRankForm />}
+              element={
+                <PermissionGate module="rank" action="create" fallback={<Error404 />}>
+                  <AddRankForm />
+                </PermissionGate>
+              }
             />
             <Route
               path="organisation/rank-details/edit-rank"
-              element={<EditRankForm />}
+              element={
+                <PermissionGate module="rank" action="edit" fallback={<Error404 />}>
+                  <EditRankForm />
+                </PermissionGate>
+              }
             />
             <Route
               path="organisation/employee-details"
@@ -371,11 +371,19 @@ const Dashboard = (): React.ReactElement => {
             />
             <Route
               path="organisation/employee-details/add-employee"
-              element={<AddEmployeeForm showMenu={showMenu} />}
+              element={
+                <PermissionGate module="employee" action="create" fallback={<Error404 />}>
+                  <AddEmployeeForm showMenu={showMenu} />
+                </PermissionGate>
+              }
             />
             <Route
               path="organisation/employee-details/edit-employee"
-              element={<EditEmployeeForm showMenu={showMenu} />}
+              element={
+                <PermissionGate module="employee" action="edit" fallback={<Error404 />}>
+                  <EditEmployeeForm showMenu={showMenu} />
+                </PermissionGate>
+              }
             />
             <Route
               path="posts"
@@ -385,8 +393,22 @@ const Dashboard = (): React.ReactElement => {
                 />
               }
             />
-            <Route path="posts/add-post" element={<AddPostForm />} />
-            <Route path="posts/edit-post" element={<EditPostForm />} />
+            <Route
+              path="posts/add-post"
+              element={
+                <PermissionGate module="post" action="create" fallback={<Error404 />}>
+                  <AddPostForm />
+                </PermissionGate>
+              }
+            />
+            <Route
+              path="posts/edit-post"
+              element={
+                <PermissionGate module="post" action="edit" fallback={<Error404 />}>
+                  <EditPostForm />
+                </PermissionGate>
+              }
+            />
             {/* Error routes */}
             <Route path="/app/500" element={<Error500 />} />
             <Route path="*" element={<Error404 />} /> {/* Catch-all for 404 */}

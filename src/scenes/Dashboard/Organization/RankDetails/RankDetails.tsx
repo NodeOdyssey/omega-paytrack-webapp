@@ -12,6 +12,7 @@ import useHandleYupError from '../../../../hooks/useHandleYupError';
 import useClickOutside from '../../../../hooks/useClickOutside';
 import useScrollToTop from '../../../../hooks/useScrollToTop';
 import useTableSearch from '../../../../hooks/useTableSearch';
+import { usePermissions } from '../../../../hooks/usePermissions';
 
 /* Types */
 import { Rank } from '../../../../types/rank';
@@ -51,6 +52,7 @@ const RankDetails: React.FC<RankDetailsProps> = ({ onAddRankClick }) => {
 
   /* Verify User Auth */
   const accessToken = useVerifyUserAuth();
+  const { canCreate } = usePermissions();
 
   /* Loader */
   const [isLoading, setIsLoading] = useState(false);
@@ -128,13 +130,15 @@ const RankDetails: React.FC<RankDetailsProps> = ({ onAddRankClick }) => {
                 handleSearchInputChange={handleSearchInputChange}
               />
               <div className="relative flex items-center gap-2 2xl:gap-4">
-                <PrimaryButton
-                  type="submit"
-                  icon={Plus_White}
-                  onClick={onAddRankClick}
-                >
-                  Add Rank
-                </PrimaryButton>
+                {canCreate('rank') && (
+                  <PrimaryButton
+                    type="submit"
+                    icon={Plus_White}
+                    onClick={onAddRankClick}
+                  >
+                    Add Rank
+                  </PrimaryButton>
+                )}
 
                 {/* Table Options Kebab */}
                 <button

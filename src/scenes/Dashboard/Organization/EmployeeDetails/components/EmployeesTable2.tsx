@@ -36,6 +36,7 @@ import useHandleYupError from '../../../../../hooks/useHandleYupError';
 import useHandleAxiosError from '../../../../../hooks/useHandleAxiosError';
 // import { ref } from 'yup';
 import Loader from '../../../../../common/Loader/Loader';
+import { usePermissions } from '../../../../../hooks/usePermissions';
 
 // css
 import '../../../../../App.css';
@@ -69,6 +70,7 @@ const EmployeesTable2: React.FC<EmployeesTableProps> = ({
   const accessToken = useVerifyUserAuth();
   // navigation
   const navigate = useNavigate();
+  const { canEdit, canDelete } = usePermissions();
 
   /* Table Horizontal Scroll */
   // const tableRef = useHorizontalScroll();
@@ -837,27 +839,31 @@ const EmployeesTable2: React.FC<EmployeesTableProps> = ({
               left: `${menuPosition.left}px`,
             }}
           >
-            <button
-              onClick={() => {
-                setActionModalIndex(null);
-                handleEdit(actionEmployeeId);
-              }}
-              className="action-menu-button"
-            >
-              <img src={EditPencil_Icon} alt="Edit" className="w-4 h-4" />
-              <p className="text-responsive-table">Edit</p>
-            </button>
+            {canEdit('employee') && (
+              <button
+                onClick={() => {
+                  setActionModalIndex(null);
+                  handleEdit(actionEmployeeId);
+                }}
+                className="action-menu-button"
+              >
+                <img src={EditPencil_Icon} alt="Edit" className="w-4 h-4" />
+                <p className="text-responsive-table">Edit</p>
+              </button>
+            )}
 
-            <button
-              onClick={() => {
-                setActionModalIndex(null);
-                setShowDeleteModal(true);
-              }}
-              className="action-menu-button"
-            >
-              <img src={Delete_Icon} alt="Delete" className="w-4 h-4" />
-              <p className="text-responsive-table">Delete</p>
-            </button>
+            {canDelete('employee') && (
+              <button
+                onClick={() => {
+                  setActionModalIndex(null);
+                  setShowDeleteModal(true);
+                }}
+                className="action-menu-button"
+              >
+                <img src={Delete_Icon} alt="Delete" className="w-4 h-4" />
+                <p className="text-responsive-table">Delete</p>
+              </button>
+            )}
 
             <button
               onClick={() => {

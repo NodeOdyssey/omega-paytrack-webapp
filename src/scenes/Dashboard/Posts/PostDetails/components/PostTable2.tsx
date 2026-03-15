@@ -14,6 +14,7 @@ import useClickOutside from '../../../../../hooks/useClickOutside';
 import useScrollToTop from '../../../../../hooks/useScrollToTop';
 import useHandleYupError from '../../../../../hooks/useHandleYupError';
 import useHandleAxiosError from '../../../../../hooks/useHandleAxiosError';
+import { usePermissions } from '../../../../../hooks/usePermissions';
 
 /* Types */
 import { Post } from '../../../../../types/post';
@@ -73,6 +74,7 @@ const PostTable2: React.FC<PostsTableProps> = ({
 
   /* Navigation */
   const navigate = useNavigate();
+  const { canEdit, canDelete, hasPermission } = usePermissions();
 
   /* Table Horizontal Scroll */
   // const tableRef = useHorizontalScroll();
@@ -478,38 +480,42 @@ const PostTable2: React.FC<PostsTableProps> = ({
               }}
             >
               {/* Edit Post */}
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleEdit(currentRankId);
-                }}
-                className="action-menu-button"
-              >
-                <img
-                  src={EditPencil_Icon}
-                  alt="EditPencil_Icon"
-                  className="action-modal-responsive-icon"
-                />
-                <p className="text-responsive-table">Edit</p>
-              </button>
+              {canEdit('post') && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleEdit(currentRankId);
+                  }}
+                  className="action-menu-button"
+                >
+                  <img
+                    src={EditPencil_Icon}
+                    alt="EditPencil_Icon"
+                    className="action-modal-responsive-icon"
+                  />
+                  <p className="text-responsive-table">Edit</p>
+                </button>
+              )}
               {/* Delete Post */}
-              <button
-                onClick={(event) => {
-                  event.stopPropagation();
-                  setShowDeleteModal(true);
-                  setActionModalIndex(null);
-                }}
-                className="action-menu-button"
-              >
-                <img
-                  src={Delete_Icon}
-                  alt="Delete_Icon"
-                  className="action-modal-responsive-icon"
-                />
-                <p className="text-responsive-table">Delete</p>
-              </button>
+              {canDelete('post') && (
+                <button
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    setShowDeleteModal(true);
+                    setActionModalIndex(null);
+                  }}
+                  className="action-menu-button"
+                >
+                  <img
+                    src={Delete_Icon}
+                    alt="Delete_Icon"
+                    className="action-modal-responsive-icon"
+                  />
+                  <p className="text-responsive-table">Delete</p>
+                </button>
+              )}
               {/* Invoice */}
-              {invoiceFeatureEnabled && (
+              {invoiceFeatureEnabled && hasPermission('invoice', 'create') && (
                 <button
                   onClick={(event) => {
                     event.stopPropagation();
